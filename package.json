@@ -1,0 +1,37 @@
+{
+    "name": "phake-os",
+    "version": "0.1.0",
+    "description": "Hệ điều hành pha-ke.",
+    "author": {
+        "name": "tientq64"
+    },
+    "packageManager": "pnpm@10.9.0",
+    "scripts": {
+        "dev": "tsx scripts/commands/dev.ts"
+    },
+    "devDependencies": {
+        "@types/bro-fs": "0.6.5",
+        "@types/fs-extra": "^11.0.4",
+        "@types/js-yaml": "4.0.9",
+        "@types/live-server": "^1.2.3",
+        "@types/node": "24.9.1",
+        "@types/react": "19.2.2",
+        "@types/react-dom": "19.2.2",
+        "ahooks": "3.9.5",
+        "chokidar": "3.6.0",
+        "dayjs": "1.11.18",
+        "fast-glob": "3.3.3",
+        "fs-extra": "11.3.2",
+        "live-server": "1.2.2",
+        "motion": "12.23.23",
+        "prettier": "3.6.2",
+        "prettier-plugin-jsdoc": "1.3.3",
+        "prettier-plugin-tailwindcss": "0.7.1",
+        "tailwind-merge": "3.3.1",
+        "tailwindcss": "4.1.16",
+        "tsx": "4.20.6",
+        "typescript": "5.9.3",
+        "valtio": "2.1.8"
+    },
+    "license": "MIT"
+}

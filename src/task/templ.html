@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi" class="dark h-full">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <style id="os-css" type="text/tailwindcss">
+            {{css}}
+        </style>
+    </head>
+
+    <body class="h-full overflow-hidden bg-zinc-900 text-white select-none">
+        <div class="h-full" id="os-root">
+            <script type="module">
+                import 'https://esm.sh/@tailwindcss/browser@4'
+                import * as ahooks from 'https://esm.sh/ahooks@3?deps=react@18,react-dom@18'
+                import * as ReactDOM from 'https://esm.sh/react-dom@18'
+                import * as React from 'https://esm.sh/react@18'
+                import * as valtio from 'https://esm.sh/valtio@1.13.2?deps=react@18,react-dom@18'
+                import { twMerge } from 'https://esm.sh/tailwind-merge@3.3.1'
+                import dayjs from 'https://esm.sh/dayjs@1.11.18'
+                import * as motionReact from 'https://esm.sh/motion@12.23.24/react?deps=react@18'
+
+                window.React = React
+                window.ReactDOM = ReactDOM
+                window.valtio = valtio
+                window.ahooks = ahooks
+                window.twMerge = twMerge
+                window.dayjs = dayjs
+                window.motionReact = motionReact
+
+                __js__
+            </script>
+        </div>
+    </body>
+</html>

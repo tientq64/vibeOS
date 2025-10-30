@@ -1,0 +1,9 @@
+{
+    "useOS": {
+        "scope": "typescriptreact",
+        "prefix": "uo",
+        "body": [
+            "const ${1:snap} = useOS()"
+        ]
+    }
+}

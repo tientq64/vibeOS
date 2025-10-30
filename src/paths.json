@@ -1,0 +1,144 @@
+{
+    "/src/both/constants/*": [
+        "/src/both/constants/appInstallTypes.ts",
+        "/src/both/constants/constants.ts",
+        "/src/both/constants/ents.ts",
+        "/src/both/constants/funcs.ts",
+        "/src/both/constants/readFileDataTypes.ts"
+    ],
+    "/src/core/constants/*": [],
+    "/src/task/constants/*": [
+        "/src/task/constants/postMessageFunc.ts",
+        "/src/task/constants/secretId.ts"
+    ],
+    "/src/both/states/*": [
+        "/src/both/states/apps.ts",
+        "/src/both/states/appTypes.ts",
+        "/src/both/states/colors.ts",
+        "/src/both/states/entExts.ts",
+        "/src/both/states/icons.ts",
+        "/src/both/states/incrIdState.ts",
+        "/src/both/states/messenger.ts",
+        "/src/both/states/sizes.ts",
+        "/src/both/states/tasks.ts",
+        "/src/both/states/time.ts"
+    ],
+    "/src/core/states/*": [
+        "/src/core/states/desktop.ts",
+        "/src/core/states/taskbar.ts"
+    ],
+    "/src/task/states/*": [],
+    "/src/both/components/*": [
+        "/src/both/components/Button.tsx",
+        "/src/both/components/Icon.tsx",
+        "/src/both/components/InputGroup.tsx",
+        "/src/both/components/Table.tsx",
+        "/src/both/components/TextInput.tsx"
+    ],
+    "/src/core/components/*": [
+        "/src/core/components/Task.tsx",
+        "/src/core/components/Taskbar.tsx",
+        "/src/core/components/TaskbarTask.tsx",
+        "/src/core/components/TaskbarTrays.tsx"
+    ],
+    "/src/task/components/*": [
+        "/src/task/components/FrameTask.tsx"
+    ],
+    "/src/both/hooks/*": [],
+    "/src/core/hooks/*": [
+        "/src/core/hooks/useOS.ts",
+        "/src/core/hooks/useTasks.ts"
+    ],
+    "/src/task/hooks/*": [],
+    "/src/both/funcs/*": [
+        "/src/both/funcs/basePath.ts",
+        "/src/both/funcs/clamp.ts",
+        "/src/both/funcs/clsx.ts",
+        "/src/both/funcs/createProxy.ts",
+        "/src/both/funcs/dirPath.ts",
+        "/src/both/funcs/entToPath.ts",
+        "/src/both/funcs/extPath.ts",
+        "/src/both/funcs/find.ts",
+        "/src/both/funcs/formatTime.ts",
+        "/src/both/funcs/getAppType.ts",
+        "/src/both/funcs/getColor.ts",
+        "/src/both/funcs/getSize.ts",
+        "/src/both/funcs/incrId.ts",
+        "/src/both/funcs/isAbsPath.ts",
+        "/src/both/funcs/isArray.ts",
+        "/src/both/funcs/isFunction.ts",
+        "/src/both/funcs/isObject.ts",
+        "/src/both/funcs/isPrimitive.ts",
+        "/src/both/funcs/isSelfEvent.ts",
+        "/src/both/funcs/isString.ts",
+        "/src/both/funcs/joinPath.ts",
+        "/src/both/funcs/noop.ts",
+        "/src/both/funcs/normPath.ts",
+        "/src/both/funcs/parseYaml.ts",
+        "/src/both/funcs/ref.ts",
+        "/src/both/funcs/remove.ts",
+        "/src/both/funcs/resolvePath.ts",
+        "/src/both/funcs/splitPath.ts",
+        "/src/both/funcs/stemPath.ts",
+        "/src/both/funcs/stopPropagation.ts",
+        "/src/both/funcs/tw.ts",
+        "/src/both/funcs/uniqId.ts"
+    ],
+    "/src/core/funcs/*": [
+        "/src/core/funcs/frameInit.ts",
+        "/src/core/funcs/installApp.ts",
+        "/src/core/funcs/maximize.ts",
+        "/src/core/funcs/readDir.ts",
+        "/src/core/funcs/readFile.ts",
+        "/src/core/funcs/readVibeFile.ts",
+        "/src/core/funcs/resolveEntIcon.ts",
+        "/src/core/funcs/runTask.ts",
+        "/src/core/funcs/setFullscreen.ts",
+        "/src/core/funcs/writeFile.ts"
+    ],
+    "/src/task/funcs/*": [],
+    "/src/both/helpers/*": [
+        "/src/both/helpers/bothSetup.ts",
+        "/src/both/helpers/isMessage.ts"
+    ],
+    "/src/core/helpers/*": [
+        "/src/core/helpers/coreReceiveMessage.ts",
+        "/src/core/helpers/coreSend.ts",
+        "/src/core/helpers/coreSetup.ts",
+        "/src/core/helpers/getTask.ts",
+        "/src/core/helpers/handleWindowResize.ts",
+        "/src/core/helpers/makeEnt.ts",
+        "/src/core/helpers/updateUnixTime.ts"
+    ],
+    "/src/task/helpers/*": [
+        "/src/task/helpers/taskReceiveMessage.ts",
+        "/src/task/helpers/taskSend.ts",
+        "/src/task/helpers/taskSetup.ts"
+    ],
+    "/src/both/store/*": [
+        "/src/both/store/both.ts"
+    ],
+    "/src/core/store/*": [
+        "/src/core/store/core.ts"
+    ],
+    "/src/task/store/*": [
+        "/src/task/store/task.ts"
+    ],
+    "/C/apps/*": [
+        "/C/apps/FileManager",
+        "/C/apps/UIShowcase",
+        "/C/apps/VibeOS"
+    ],
+    "/C/!(apps)/**": [
+        "/C/audios",
+        "/C/fonts",
+        "/C/images",
+        "/C/audios/musics",
+        "/C/fonts/VibeOS-Regular.otf",
+        "/C/fonts/VibeOSIcon-Regular.otf",
+        "/C/images/logo",
+        "/C/audios/musics/pixeltown-color-parade.mp3",
+        "/C/images/logo/logo-16.png",
+        "/C/images/logo/logo-96.png"
+    ]
+}

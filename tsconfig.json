@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "jsx": "react",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "noEmit": true,
+        "checkJs": false,
+        "allowUmdGlobalAccess": true
+    },
+    "include": ["src", "C/apps"]
+}

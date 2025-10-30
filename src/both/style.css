@@ -1,0 +1,43 @@
+@reference 'tailwindcss';
+
+@font-face {
+    src: url('/C/fonts/VibeOS-Regular.otf');
+    font-family: VibeOS;
+}
+@font-face {
+    src: url('/C/fonts/VibeOSIcon-Regular.otf');
+    font-family: VibeOSIcon;
+}
+
+@theme {
+    --font-sans: VibeOS, sans-serif;
+}
+
+@custom-variant dark {
+    &:where(.dark, .dark *) {
+        @slot;
+    }
+}
+@custom-variant light {
+    &:where(.light, .light *) {
+        @slot;
+    }
+}
+
+@utility row {
+    @apply flex items-center justify-center;
+}
+@utility col {
+    @apply flex flex-col items-center justify-center;
+}
+@utility column {
+    @apply flex flex-col justify-center;
+}
+
+@layer base {
+    *,
+    ::before,
+    ::after {
+        @apply border-zinc-600;
+    }
+}
