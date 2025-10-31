@@ -27,7 +27,9 @@
         "/src/core/states/desktop.ts",
         "/src/core/states/taskbar.ts"
     ],
-    "/src/task/states/*": [],
+    "/src/task/states/*": [
+        "/src/task/states/args.ts"
+    ],
     "/src/both/components/*": [
         "/src/both/components/Button.tsx",
         "/src/both/components/Icon.tsx",
@@ -61,6 +63,7 @@
         "/src/both/funcs/find.ts",
         "/src/both/funcs/formatTime.ts",
         "/src/both/funcs/getAppType.ts",
+        "/src/both/funcs/getArgs.ts",
         "/src/both/funcs/getColor.ts",
         "/src/both/funcs/getSize.ts",
         "/src/both/funcs/incrId.ts",
@@ -77,15 +80,17 @@
         "/src/both/funcs/parseYaml.ts",
         "/src/both/funcs/ref.ts",
         "/src/both/funcs/remove.ts",
+        "/src/both/funcs/resetAssign.ts",
         "/src/both/funcs/resolvePath.ts",
         "/src/both/funcs/splitPath.ts",
         "/src/both/funcs/stemPath.ts",
         "/src/both/funcs/stopPropagation.ts",
         "/src/both/funcs/tw.ts",
-        "/src/both/funcs/uniqId.ts"
+        "/src/both/funcs/uniqId.ts",
+        "/src/both/funcs/validate.ts"
     ],
     "/src/core/funcs/*": [
-        "/src/core/funcs/frameInit.ts",
+        "/src/core/funcs/getFrameInit.ts",
         "/src/core/funcs/installApp.ts",
         "/src/core/funcs/maximize.ts",
         "/src/core/funcs/readDir.ts",
@@ -93,6 +98,7 @@
         "/src/core/funcs/readVibeFile.ts",
         "/src/core/funcs/resolveEntIcon.ts",
         "/src/core/funcs/runTask.ts",
+        "/src/core/funcs/setFrameInited.ts",
         "/src/core/funcs/setFullscreen.ts",
         "/src/core/funcs/writeFile.ts"
     ],
@@ -105,12 +111,15 @@
         "/src/core/helpers/coreReceiveMessage.ts",
         "/src/core/helpers/coreSend.ts",
         "/src/core/helpers/coreSetup.ts",
+        "/src/core/helpers/getApp.ts",
         "/src/core/helpers/getTask.ts",
         "/src/core/helpers/handleWindowResize.ts",
         "/src/core/helpers/makeEnt.ts",
+        "/src/core/helpers/undefOr.ts",
         "/src/core/helpers/updateUnixTime.ts"
     ],
     "/src/task/helpers/*": [
+        "/src/task/helpers/initFrame.ts",
         "/src/task/helpers/taskReceiveMessage.ts",
         "/src/task/helpers/taskSend.ts",
         "/src/task/helpers/taskSetup.ts"

@@ -22,26 +22,21 @@ async function installApp(
         throw Error('Không tìm thấy tên ứng dụng')
     }
 
-    function cast(func: StringConstructor, val: unknown): string | undefined
-    function cast(func: NumberConstructor, val: unknown): number | undefined
-    function cast(func: BooleanConstructor, val: unknown): boolean | undefined
-    function cast(func: StringConstructor | NumberConstructor | BooleanConstructor, val: unknown) {
-        return val === undefined ? undefined : func(val)
-    }
-
     const appId: string = uniqId()
     const appPath: string = destPath
     const name: string = vibe.name
     const type: AppTypeName = getAppType(vibe.type)?.name ?? AppTypeName.Normal
-    const icon: string = String(vibe.icon || 'app')
-    const title: string | undefined = cast(String, vibe.title)
-    const maximized: boolean | undefined = cast(Boolean, vibe.maximized)
-    const minimized: boolean | undefined = cast(Boolean, vibe.minimized)
-    const fullscreen: boolean | undefined = cast(Boolean, vibe.fullscreen)
-    const width: number | undefined = cast(Number, vibe.width)
-    const height: number | undefined = cast(Number, vibe.height)
-    const x: number | undefined = cast(Number, vibe.x)
-    const y: number | undefined = cast(Number, vibe.y)
+    const icon: string = undefOr('non-empty-string', vibe.icon) ?? 'app'
+    const title: string | undefined = undefOr('string', vibe.title)
+    const maximized: boolean | undefined = undefOr('boolean', vibe.maximized)
+    const minimized: boolean | undefined = undefOr('boolean', vibe.minimized)
+    const fullscreen: boolean | undefined = undefOr('boolean', vibe.fullscreen)
+    const width: number | undefined = undefOr('uint', vibe.width)
+    const height: number | undefined = undefOr('uint', vibe.height)
+    const x: number | undefined = undefOr('uint', vibe.x)
+    const y: number | undefined = undefOr('uint', vibe.y)
+    const noHeader: boolean | undefined = undefOr('boolean', vibe.noHeader)
+    const args: Obj | undefined = undefOr('object', vibe.args)
 
     const srcTsxPath: string = joinPath(srcPath, 'app.tsx')
     const tsxRes: Response = await fetch(srcTsxPath)
@@ -80,6 +75,8 @@ async function installApp(
         height,
         x,
         y,
+        noHeader,
+        args,
         installType
     })
     apps.push(app)

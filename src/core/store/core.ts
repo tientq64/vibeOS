@@ -10,7 +10,8 @@ const core = {
     setFullscreen,
     maximize,
     resolveEntIcon,
-    frameInit
+    getFrameInit,
+    setFrameInited
 }
 
 type Core = typeof core

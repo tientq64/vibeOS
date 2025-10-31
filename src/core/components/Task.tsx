@@ -17,10 +17,6 @@ function Task({ task }: TaskProps): ReactNode {
         return task.type === AppTypeName.OS || task.type === AppTypeName.Core
     }, [task.type])
 
-    const visibleHeader = useMemo<boolean>(() => {
-        return !task.fullscreen
-    }, [task.fullscreen])
-
     const handleHeaderPointerDown = (event: ReactPointerEvent): void => {
         if (!isSelfEvent(event)) return
         if (task.fullscreen || task.maximized) return
@@ -109,7 +105,7 @@ function Task({ task }: TaskProps): ReactNode {
     useAsyncEffect(async () => {
         if (!noIframe) return
         if (js === undefined || css === undefined || mountRef.current === null) return
-        const component = await eval(js)()
+        const component = await eval(js)(task)
         const root = ReactDOM.createRoot(mountRef.current)
         root.render(React.createElement(component))
         setJs(undefined)
@@ -136,11 +132,12 @@ function Task({ task }: TaskProps): ReactNode {
             className={clsx('absolute flex flex-col bg-zinc-800 shadow-[0_4px_#0008]')}
             initial={{
                 ...taskRect,
+                borderRadius: task.fullscreen ? 0 : 8,
                 scale: task.fullscreen ? 1 : 0.9
             }}
             animate={{
                 ...taskRect,
-                borderRadius: task.fullscreen || task.maximized ? 0 : 8,
+                borderRadius: task.fullscreen || task.maximized ? 0 : undefined,
                 scale: 1
             }}
             transition={{
@@ -175,10 +172,14 @@ function Task({ task }: TaskProps): ReactNode {
             }}
         >
             <motion.div
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 overflow-hidden"
+                initial={{
+                    height: task.noHeader || task.fullscreen ? 0 : undefined,
+                    padding: task.noHeader || task.fullscreen ? 0 : 8
+                }}
                 animate={{
-                    height: visibleHeader ? undefined : 0,
-                    padding: visibleHeader ? 8 : 0
+                    height: task.fullscreen ? 0 : undefined,
+                    padding: task.fullscreen ? 0 : undefined
                 }}
                 onPointerDown={handleHeaderPointerDown}
             >
@@ -203,17 +204,24 @@ function Task({ task }: TaskProps): ReactNode {
                     </Button>
                 </div>
             </motion.div>
+
             <motion.div
                 className="flex-1"
+                initial={{
+                    padding: task.fullscreen ? 0 : task.noHeader ? 8 : '0 8px 8px'
+                }}
                 animate={{
-                    padding: task.fullscreen || task.maximized ? 0 : '0 8px 8px'
+                    padding: task.fullscreen || task.maximized ? 0 : undefined
                 }}
             >
                 {React.createElement(noIframe ? motion.div : motion.iframe, {
                     ref: (noIframe ? mountRef : iframeRef) as any,
                     className: clsx('h-full w-full bg-zinc-900', dragging && 'pointer-events-none'),
+                    initial: {
+                        borderRadius: 6
+                    },
                     animate: {
-                        borderRadius: task.fullscreen || task.maximized ? 0 : 6
+                        borderRadius: task.fullscreen || task.maximized ? 0 : undefined
                     }
                 })}
             </motion.div>

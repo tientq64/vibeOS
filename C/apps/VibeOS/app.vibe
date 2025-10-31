@@ -2,3 +2,4 @@ name: VibeOS
 type: os
 icon: vibe-os
 fullscreen: true
+noHeader: true

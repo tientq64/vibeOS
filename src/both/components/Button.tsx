@@ -20,6 +20,7 @@ function Button({
     fill,
     icon,
     rightIcon,
+    onClick,
     children,
     ...props
 }: ButtonProps): ReactNode {
@@ -39,6 +40,7 @@ function Button({
             )}
             type={type}
             disabled={disabled}
+            onClick={onClick}
         >
             {isString(icon) ? <Icon name={icon} /> : icon}
             {children}

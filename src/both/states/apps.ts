@@ -12,6 +12,8 @@ interface App {
     height: number | undefined
     x: number | undefined
     y: number | undefined
+    noHeader: boolean | undefined
+    args: Obj | undefined
     installType: AppInstallTypeName
 }
 

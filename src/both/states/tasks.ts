@@ -13,10 +13,29 @@ interface Task extends Both, Core {
     height: number
     x: number
     y: number
+    noHeader: boolean
+    args: Obj
     secretId: string
     frameInited: boolean
     postMessage: Window['postMessage'] | undefined
 }
+
+type TaskPrefer = Partial<
+    Pick<
+        Task,
+        | 'icon'
+        | 'title'
+        | 'maximized'
+        | 'minimized'
+        | 'fullscreen'
+        | 'width'
+        | 'height'
+        | 'x'
+        | 'y'
+        | 'noHeader'
+        | 'args'
+    >
+>
 
 type MaybeTask = Task | undefined | void
 

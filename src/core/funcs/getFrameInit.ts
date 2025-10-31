@@ -1,11 +1,13 @@
-function frameInit(this: MaybeTask) {
+function getFrameInit(this: MaybeTask) {
     if (!this) return
 
     const newSecretId: string = uniqId()
+    const args = { ...this.args }
 
     this.secretId = newSecretId
 
     return {
-        secretId: newSecretId
+        secretId: newSecretId,
+        args
     }
 }

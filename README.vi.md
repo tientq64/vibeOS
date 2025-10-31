@@ -10,7 +10,7 @@
     Hệ điều hành "pha-ke".
     <br />
     <br />
-    <img src="https://img.shields.io/github/package-json/v/tientq64/vibeOS?color=blue&label=phiên bản">
+    <img src="https://img.shields.io/github/package-json/v/tientq64/vibeOS?color=blue&label=phiên%20bản">
     <img src="https://img.shields.io/badge/hàng-Việt_Nam-crimson">
     <img src="https://img.shields.io/badge/tạo_bằng-cơm-hotpink">
 </p>

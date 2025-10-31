@@ -10,5 +10,14 @@ async function coreSetup(): Promise<void> {
     window.addEventListener('message', coreReceiveMessage)
     handleWindowResize()
 
+    runTask('/C/apps/FileManager', {
+        maximized: true,
+        noHeader: true,
+        args: {
+            isDesktop: true,
+            path: '/C/apps',
+            viewMode: 'tiles'
+        }
+    })
     runTask('/C/apps/FileManager')
 }
