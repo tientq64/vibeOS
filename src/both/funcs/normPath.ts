@@ -1,3 +1,4 @@
 function normPath(path: string): string {
-    return splitPath(path, true).join('/')
+    const [nodes, abs] = splitPath(path, true)
+    return abs + nodes.join('/')
 }

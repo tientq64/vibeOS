@@ -1,6 +1,8 @@
-import { start } from 'live-server'
+import { shutdown, start } from 'live-server'
 
 export function startDevServer(): void {
+    shutdown()
+
     start({
         host: 'localhost',
         port: 5500,
@@ -13,4 +15,5 @@ export function startDevServer(): void {
             }
         ]
     })
+    console.log('Đã khởi động dev server.')
 }

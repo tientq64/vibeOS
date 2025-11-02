@@ -1,12 +1,14 @@
 function resolvePath(...paths: string[]): string {
     if (paths.length === 0) return ''
 
-    const nodes: string[] = []
+    let nodes: string[] = []
+    let abs: string = ''
     for (let i = paths.length - 1; i >= 0; i--) {
-        const nodes2: string[] = splitPath(paths[i])
+        const [nodes2, abs] = splitPath(paths[i])
         nodes.unshift(...nodes2)
-        if (nodes2[0] === '') break
+        if (abs === '/') break
     }
 
-    return splitPath(nodes, true).join('/')
+    ;[nodes, abs] = splitPath([nodes, abs], true)
+    return abs + nodes.join('/')
 }

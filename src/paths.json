@@ -4,7 +4,8 @@
         "/src/both/constants/constants.ts",
         "/src/both/constants/ents.ts",
         "/src/both/constants/funcs.ts",
-        "/src/both/constants/readFileDataTypes.ts"
+        "/src/both/constants/readFileDataTypes.ts",
+        "/src/both/constants/shortcuts.ts"
     ],
     "/src/core/constants/*": [],
     "/src/task/constants/*": [
@@ -46,18 +47,22 @@
     "/src/task/components/*": [
         "/src/task/components/FrameTask.tsx"
     ],
-    "/src/both/hooks/*": [],
+    "/src/both/hooks/*": [
+        "/src/both/hooks/useUniqId.ts"
+    ],
     "/src/core/hooks/*": [
         "/src/core/hooks/useOS.ts",
         "/src/core/hooks/useTasks.ts"
     ],
     "/src/task/hooks/*": [],
     "/src/both/funcs/*": [
+        "/src/both/funcs/absPath.ts",
         "/src/both/funcs/basePath.ts",
         "/src/both/funcs/clamp.ts",
         "/src/both/funcs/clsx.ts",
         "/src/both/funcs/createProxy.ts",
         "/src/both/funcs/dirPath.ts",
+        "/src/both/funcs/dumpYaml.ts",
         "/src/both/funcs/entToPath.ts",
         "/src/both/funcs/extPath.ts",
         "/src/both/funcs/find.ts",
@@ -73,6 +78,7 @@
         "/src/both/funcs/isObject.ts",
         "/src/both/funcs/isPrimitive.ts",
         "/src/both/funcs/isSelfEvent.ts",
+        "/src/both/funcs/isShortcut.ts",
         "/src/both/funcs/isString.ts",
         "/src/both/funcs/joinPath.ts",
         "/src/both/funcs/noop.ts",
@@ -90,13 +96,18 @@
         "/src/both/funcs/validate.ts"
     ],
     "/src/core/funcs/*": [
+        "/src/core/funcs/createShortcut.ts",
+        "/src/core/funcs/getEnt.ts",
         "/src/core/funcs/getFrameInit.ts",
         "/src/core/funcs/installApp.ts",
         "/src/core/funcs/maximize.ts",
         "/src/core/funcs/readDir.ts",
         "/src/core/funcs/readFile.ts",
+        "/src/core/funcs/readShortcut.ts",
         "/src/core/funcs/readVibeFile.ts",
+        "/src/core/funcs/realPath.ts",
         "/src/core/funcs/resolveEntIcon.ts",
+        "/src/core/funcs/resolveShortcut.ts",
         "/src/core/funcs/runTask.ts",
         "/src/core/funcs/setFrameInited.ts",
         "/src/core/funcs/setFullscreen.ts",
@@ -116,7 +127,8 @@
         "/src/core/helpers/handleWindowResize.ts",
         "/src/core/helpers/makeEnt.ts",
         "/src/core/helpers/undefOr.ts",
-        "/src/core/helpers/updateUnixTime.ts"
+        "/src/core/helpers/updateUnixTime.ts",
+        "/src/core/helpers/withTaskPath.ts"
     ],
     "/src/task/helpers/*": [
         "/src/task/helpers/initFrame.ts",

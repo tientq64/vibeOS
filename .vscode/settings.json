@@ -1,6 +1,6 @@
 {
 	"editor.codeActionsOnSave": {
-		"source.addMissingImports.ts": "explicit",
+		// "source.addMissingImports.ts": "explicit",
 		"source.organizeImports": "explicit",
 		"source.fixAll.ts": "explicit"
 	},
@@ -27,5 +27,6 @@
     },
     "[yaml]": {
         "editor.formatOnSave": true
-    }
+    },
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

@@ -1,14 +1,5 @@
 @reference 'tailwindcss';
 
-@font-face {
-    src: url('/C/fonts/VibeOS-Regular.otf');
-    font-family: VibeOS;
-}
-@font-face {
-    src: url('/C/fonts/VibeOSIcon-Regular.otf');
-    font-family: VibeOSIcon;
-}
-
 @theme {
     --font-sans: VibeOS, sans-serif;
 }
@@ -38,6 +29,6 @@
     *,
     ::before,
     ::after {
-        @apply border-zinc-600;
+        @apply border-neutral-600;
     }
 }

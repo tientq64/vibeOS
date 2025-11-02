@@ -19,23 +19,27 @@ const entExts = createProxy<EntExt[]>(() => {
             bases: ['app.vibe']
         },
         {
-            icon: 'file-code',
+            icon: '{targetIcon}',
+            exts: ['lnk']
+        },
+        {
+            icon: 'code',
             extsPattern: /^(tsx?|jsx?|css|html|ya?ml)$/
         },
         {
-            icon: 'file-image',
+            icon: 'image',
             extsPattern: /^(png|jpe?g|gif|webp|tiff?|jfif|apng|avif|svg|ico|cur|bmp|raw)$/
         },
         {
-            icon: 'file-audio',
+            icon: 'volume-up',
             extsPattern: /^(mp3|aac|wav|flac|mid)$/
         },
         {
-            icon: 'file-video',
+            icon: 'video',
             extsPattern: /^(mp4|3gp|webm|avi|mov|wmv|mkv)$/
         },
         {
-            icon: 'file-text',
+            icon: 'paragraph',
             extsPattern: /^(txt)$/
         },
         {

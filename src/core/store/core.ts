@@ -1,17 +1,22 @@
 const core = {
-    taskbar,
     desktop,
-    readFile,
-    writeFile,
-    readDir,
-    readVibeFile,
-    installApp,
-    runTask,
-    setFullscreen,
-    maximize,
-    resolveEntIcon,
+    taskbar,
+    createShortcut,
+    getEnt,
     getFrameInit,
-    setFrameInited
+    installApp,
+    maximize,
+    readDir,
+    readFile,
+    readShortcut,
+    readVibeFile,
+    realPath,
+    resolveEntIcon,
+    resolveShortcut,
+    runTask,
+    setFrameInited,
+    setFullscreen,
+    writeFile
 }
 
 type Core = typeof core

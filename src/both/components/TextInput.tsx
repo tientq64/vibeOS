@@ -4,10 +4,12 @@ interface TextInputProps {
     name?: string
     fill?: boolean
     placeholder?: string
+    defaultValue?: string
     value?: string
     element?: ReactElement
     rightElement?: ReactElement
     onChange?: ChangeEventHandler
+    onValueChange?: (value: string) => void
 }
 
 function TextInput({
@@ -18,13 +20,27 @@ function TextInput({
     placeholder,
     element,
     rightElement,
+    defaultValue,
     value,
-    onChange
+    onChange,
+    onValueChange
 }: TextInputProps): ReactNode {
+    const [controllableValue, setControllableValue] = useControllableValue<string>({
+        defaultValue,
+        value
+    })
+
+    const handleInputChange = (event: ChangeEvent): void => {
+        const { value } = event.target
+        setControllableValue(value)
+        onChange?.(event)
+        onValueChange?.(value)
+    }
+
     return (
         <div
             className={tw(
-                'inline-flex h-8 w-64 rounded bg-zinc-800 shadow-[inset_0_2px] shadow-zinc-950 *:rounded-none *:first:rounded-l *:last:rounded-r',
+                'inline-flex h-8 w-64 rounded bg-neutral-800 shadow-[inset_0_2px] shadow-neutral-950 *:rounded-none *:first:rounded-l *:last:rounded-r',
                 fill && 'flex w-auto',
                 className
             )}
@@ -37,9 +53,11 @@ function TextInput({
                     fill && 'w-full'
                 )}
                 name={name}
+                autoComplete="both"
                 placeholder={placeholder}
-                value={value}
-                onChange={onChange}
+                defaultValue={defaultValue}
+                value={controllableValue}
+                onChange={handleInputChange}
             />
             {rightElement}
         </div>

@@ -15,7 +15,7 @@ async function coreSetup(): Promise<void> {
         noHeader: true,
         args: {
             isDesktop: true,
-            path: '/C/apps',
+            path: '/C/desktop',
             viewMode: 'tiles'
         }
     })

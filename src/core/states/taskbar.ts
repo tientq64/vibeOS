@@ -3,5 +3,5 @@ interface Taskbar {
 }
 
 const taskbar: Taskbar = {
-    height: 42
+    height: 44
 }

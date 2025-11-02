@@ -1,6 +1,6 @@
 const icons: (string | undefined)[] = ref([
     ,
-    'app',
+    'task',
     'home',
     'comment',
     'battery-full',
@@ -31,11 +31,23 @@ const icons: (string | undefined)[] = ref([
     'volume-down',
     'volume',
     'volume-mute',
-    'video',
+    ,
     'video-slash',
     'gear',
     'trash',
     'copy',
     'scissors',
-    'key-enter'
+    'key-enter',
+    'video',
+    'code',
+    'film',
+    'css',
+    'html',
+    'js',
+    'ts',
+    'caret-left',
+    'caret-right',
+    'caret-up',
+    'caret-down',
+    'task-break'
 ])

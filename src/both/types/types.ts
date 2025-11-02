@@ -13,7 +13,13 @@ type ReactElement = React.ReactElement
 type FunctionComponent = React.FunctionComponent
 
 type SyntheticEvent<T = HTMLElement, E = Event> = React.SyntheticEvent<T, E>
+type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>
+type FormEvent<T = HTMLFormElement> = React.FormEvent<T>
+type ReactMouseEvent<T = HTMLFormElement> = React.MouseEvent<T>
 type ReactPointerEvent<T = HTMLElement> = React.PointerEvent<T>
+type ReactWheelEvent<T = HTMLElement> = React.WheelEvent<T>
+type ReactKeyboardEvent<T = HTMLFormElement> = React.KeyboardEvent<T>
+type ReactFocusEvent<T = HTMLFormElement> = React.FocusEvent<T>
 
 type ChangeEventHandler<T = HTMLInputElement> = React.ChangeEventHandler<T>
 type FormEventHandler<T = HTMLFormElement> = React.FormEventHandler<T>

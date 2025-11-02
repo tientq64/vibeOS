@@ -4,7 +4,9 @@ interface IconProps extends HTMLAttributes {
 
 function Icon({ className, name, ...props }: IconProps): ReactNode {
     const glyph = useMemo<string>(() => {
-        return String.fromCharCode(icons.indexOf(name))
+        const charCode = icons.indexOf(name)
+        if (charCode < 0) return ' '
+        return String.fromCharCode(charCode)
     }, [name])
 
     return (

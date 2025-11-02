@@ -6,23 +6,30 @@ async function FileManager(ts: Task) {
 
     const { filesize } = (await import('https://esm.sh/filesize')) as any
 
-    const { isDesktop, path, viewMode } = ts.getArgs({
+    const { isDesktop, path, viewMode } = await ts.getArgs({
         isDesktop: yup.bool().default(false),
-        path: yup.string().transform(normPath).default('/'),
+        path: yup.string().transform(absPath).default('/'),
         viewMode: yup.mixed<'list' | 'tiles'>().oneOf(['list', 'tiles']).default('list')
     })
 
     function App(): ReactNode {
-        const hist = useHistoryTravel(normPath(path), 1000)
+        const [inputPath, setInputPath] = useState<string>(path)
+        const hist = useHistoryTravel(path, 1000)
         const [selectedEnts, setSelectedEnts] = useSet<Ent>()
         const [selectAnchor, setSelectAnchor] = useState<Position | undefined>(undefined)
         const [selectCurrent, setSelectCurrent] = useState<Position | undefined>(undefined)
 
-        const req = useRequest(async () => {
-            if (hist.value === undefined) return
-            console.log(3)
-            return ts.readDir(hist.value)
-        })
+        const currentPath = useMemo<string>(() => {
+            return absPath(hist.value ?? path)
+        }, [hist.value])
+
+        const req = useRequest(
+            async () => {
+                if (hist.value === undefined) return
+                return ts.readDir(currentPath)
+            },
+            { manual: true }
+        )
 
         const selectRect = useMemo<DOMRect | undefined>(() => {
             if (selectAnchor === undefined || selectCurrent === undefined) return
@@ -54,25 +61,59 @@ async function FileManager(ts: Task) {
             setSelectCurrent(undefined)
         }
 
+        const handlePathSubmit = (event: FormEvent): void => {
+            event.preventDefault()
+            const newCurrentPath: string = absPath(inputPath)
+            if (currentPath === newCurrentPath) {
+                setInputPath(newCurrentPath)
+                req.refresh()
+                return
+            }
+            hist.setValue(newCurrentPath)
+        }
+
+        useEffect(() => {
+            setInputPath(currentPath)
+            req.run()
+        }, [currentPath])
+
         return (
-            <div className="column h-full">
+            <div
+                className="column h-full"
+                style={{
+                    background: isDesktop
+                        ? 'url(https://cdn.jsdelivr.net/gh/tientq64/data/gradient.jpg) center/cover no-repeat'
+                        : undefined
+                }}
+            >
                 {!isDesktop && (
-                    <div className="row z-1 gap-2 bg-zinc-900 p-2 pb-0">
+                    <div className="row z-1 gap-2 bg-neutral-900 p-2 pb-0">
                         <InputGroup>
-                            <Button icon="arrow-left" disabled={hist.backLength <= 0} />
-                            <Button icon="arrow-right" disabled={hist.forwardLength <= 0} />
+                            <Button
+                                icon="arrow-left"
+                                disabled={hist.backLength <= 0}
+                                onClick={() => hist.back()}
+                            />
+                            <Button
+                                icon="arrow-right"
+                                disabled={hist.forwardLength <= 0}
+                                onClick={() => hist.forward()}
+                            />
                             <Button
                                 icon="arrow-up"
                                 disabled={hist.value === undefined || hist.value === '/'}
+                                onClick={() => hist.setValue(dirPath(currentPath))}
                             />
                         </InputGroup>
 
                         <Button icon="reload" onClick={() => req.refresh()} />
 
-                        <form className="flex-1">
+                        <form className="flex-1" onSubmit={handlePathSubmit}>
                             <TextInput
+                                name="path"
                                 fill
-                                value={hist.value}
+                                value={inputPath}
+                                onValueChange={setInputPath}
                                 rightElement={<Button type="submit" icon="key-enter" />}
                             />
                         </form>
@@ -85,25 +126,40 @@ async function FileManager(ts: Task) {
                     onPointerMove={handleContentPointerMove}
                     onPointerUp={handleContentPointerUp}
                 >
-                    <Table className="h-full overflow-auto">
-                        <thead>
-                            <tr>
-                                <th>Tên</th>
-                                <th>Kích thước</th>
-                                <th>Ngày sửa đổi</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {req.data?.map((ent) => (
-                                <tr key={ent.path}>
-                                    <td>{ent.name}</td>
-                                    <td>{ent.isFile ? filesize(ent.size) : '-'}</td>
-                                    <td>{formatTime(ent.mtime, 'DD-MM-YYYY HH:mm')}</td>
+                    {viewMode === 'list' && (
+                        <Table className="max-h-full overflow-x-hidden" fixed={[4, 1, 2]} noWrap>
+                            <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th>Kích thước</th>
+                                    <th>Ngày sửa đổi</th>
                                 </tr>
+                            </thead>
+
+                            <tbody>
+                                {req.data?.map((ent) => (
+                                    <tr key={ent.path}>
+                                        <td className="flex items-center gap-2">
+                                            <Icon name={ent.icon} />
+                                            <div className="truncate">{ent.name}</div>
+                                        </td>
+                                        <td>{ent.isFile ? filesize(ent.size) : '-'}</td>
+                                        <td>{formatTime(ent.mtime, 'DD-MM-YYYY HH:mm')}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    )}
+                    {viewMode === 'tiles' && (
+                        <div className="grid h-full auto-cols-[120px] grid-flow-col grid-rows-[repeat(auto-fill,100px)] gap-1">
+                            {req.data?.map((ent) => (
+                                <div key={ent.path} className="col rounded hover:bg-neutral-600/50">
+                                    <Icon name={ent.icon} />
+                                    {ent.name}
+                                </div>
                             ))}
-                        </tbody>
-                    </Table>
+                        </div>
+                    )}
                 </div>
 
                 {selectRect && (

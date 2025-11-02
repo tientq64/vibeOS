@@ -7,9 +7,20 @@
         <style id="os-css" type="text/tailwindcss">
             {{css}}
         </style>
+
+        <style>
+            @font-face {
+                src: url('/C/fonts/VibeOS-Regular.otf');
+                font-family: VibeOS;
+            }
+            @font-face {
+                src: url('/C/fonts/VibeOSIcon-Regular.otf');
+                font-family: VibeOSIcon;
+            }
+        </style>
     </head>
 
-    <body class="h-full overflow-hidden bg-zinc-900 text-white select-none">
+    <body class="h-full overflow-hidden bg-neutral-900 text-white select-none">
         <div class="h-full" id="os-root">
             <script type="module">
                 import 'https://esm.sh/@tailwindcss/browser@4'

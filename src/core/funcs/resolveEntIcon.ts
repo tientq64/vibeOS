@@ -1,4 +1,4 @@
-async function resolveEntIcon(this: MaybeTask, ent: BaseEnt): Promise<string> {
+async function resolveEntIcon(ent: BaseEnt): Promise<string> {
     const entExt: EntExt | undefined = entExts.find((entExt) => {
         if (ent.isDir !== entExt.isDir) return
 
@@ -21,12 +21,17 @@ async function resolveEntIcon(this: MaybeTask, ent: BaseEnt): Promise<string> {
     let icon: string | undefined = entExt?.icon
 
     if (icon === '{appIcon}') {
-        const vibe = await readVibeFile(ent.path)
-        if (isString(vibe.icon)) {
-            icon = vibe.icon
-        } else {
-            icon = 'app-break'
+        const app = getApp(ent.path)
+        icon = app?.icon ?? 'task-break'
+    } else if (icon === '{targetIcon}') {
+        try {
+            const targetPath = await resolveShortcut(ent.path)
+            const targetEnt = await getEnt(targetPath)
+            icon = targetEnt.icon
+        } catch {
+            icon = 'file-break'
         }
     }
+
     return icon ?? 'question-mark'
 }

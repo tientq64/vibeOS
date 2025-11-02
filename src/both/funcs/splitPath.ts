@@ -1,13 +1,18 @@
-function splitPath(path: string | string[], resolveDots?: boolean): string[] {
-    if (path === '') return []
+function splitPath(path: string | [string[], string], resolveDots?: boolean): [string[], string] {
+    let abs: string
+    let nodes: string[]
 
-    const nodes: string[] = Array.isArray(path) ? path : path.split(/\/+/)
-
+    if (Array.isArray(path)) {
+        ;[nodes, abs] = path
+    } else {
+        abs = path[0] === '/' ? '/' : ''
+        nodes = Array.isArray(path) ? path : path.split(/\/+/)
+    }
     const result: string[] = []
+
     nodes.forEach((node, i) => {
         switch (node) {
             case '':
-                if (i === 0) result.push(node)
                 break
             case '.':
                 if (!resolveDots) {
@@ -22,8 +27,10 @@ function splitPath(path: string | string[], resolveDots?: boolean): string[] {
                 }
                 break
             default:
-                result.push(node)
+                if (node.replaceAll('.', '') !== '') {
+                    result.push(node)
+                }
         }
     })
-    return result
+    return [result, abs]
 }

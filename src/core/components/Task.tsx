@@ -129,7 +129,7 @@ function Task({ task }: TaskProps): ReactNode {
 
     return (
         <motion.div
-            className={clsx('absolute flex flex-col bg-zinc-800 shadow-[0_4px_#0008]')}
+            className="absolute flex flex-col bg-neutral-800"
             initial={{
                 ...taskRect,
                 borderRadius: task.fullscreen ? 0 : 8,
@@ -206,17 +206,22 @@ function Task({ task }: TaskProps): ReactNode {
             </motion.div>
 
             <motion.div
-                className="flex-1"
+                className="flex-1 bg-neutral-800"
                 initial={{
-                    padding: task.fullscreen ? 0 : task.noHeader ? 8 : '0 8px 8px'
+                    padding: task.fullscreen ? 0 : task.noHeader ? 8 : '0 8px 8px',
+                    borderRadius: '0 0 8px 8px'
                 }}
                 animate={{
-                    padding: task.fullscreen || task.maximized ? 0 : undefined
+                    padding: task.fullscreen || task.maximized ? 0 : undefined,
+                    borderRadius: task.fullscreen || task.maximized ? 0 : undefined
                 }}
             >
                 {React.createElement(noIframe ? motion.div : motion.iframe, {
                     ref: (noIframe ? mountRef : iframeRef) as any,
-                    className: clsx('h-full w-full bg-zinc-900', dragging && 'pointer-events-none'),
+                    className: clsx(
+                        'h-full w-full bg-neutral-900',
+                        dragging && 'pointer-events-none'
+                    ),
                     initial: {
                         borderRadius: 6
                     },
@@ -225,6 +230,9 @@ function Task({ task }: TaskProps): ReactNode {
                     }
                 })}
             </motion.div>
+
+            <div className="absolute -bottom-1 -z-1 h-4 w-full rounded-b-lg bg-neutral-950" />
+            <div className="absolute -bottom-0.5 -z-1 h-4 w-full rounded-b-lg bg-neutral-600" />
         </motion.div>
     )
 }

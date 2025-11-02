@@ -26,7 +26,7 @@ async function installApp(
     const appPath: string = destPath
     const name: string = vibe.name
     const type: AppTypeName = getAppType(vibe.type)?.name ?? AppTypeName.Normal
-    const icon: string = undefOr('non-empty-string', vibe.icon) ?? 'app'
+    const icon: string = undefOr('non-empty-string', vibe.icon) ?? 'task'
     const title: string | undefined = undefOr('string', vibe.title)
     const maximized: boolean | undefined = undefOr('boolean', vibe.maximized)
     const minimized: boolean | undefined = undefOr('boolean', vibe.minimized)
@@ -80,6 +80,8 @@ async function installApp(
         installType
     })
     apps.push(app)
+
+    await createShortcut(joinPath('/C/desktop', `${app.name}.lnk`), destVibePath)
 
     return app
 }
