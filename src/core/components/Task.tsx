@@ -87,6 +87,7 @@ function Task({ task }: TaskProps): ReactNode {
         if (noIframe) return
         const iframe = iframeRef.current
         if (html === '' || iframe === null) return
+        iframe.allow = ['storage-access'].join(',')
         iframe.sandbox.add(
             'allow-downloads',
             'allow-forms',
@@ -95,6 +96,7 @@ function Task({ task }: TaskProps): ReactNode {
             'allow-popups',
             'allow-popups-to-escape-sandbox',
             'allow-presentation',
+            'allow-same-origin',
             'allow-scripts',
             'allow-storage-access-by-user-activation'
         )

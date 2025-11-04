@@ -3,7 +3,7 @@ function VibeOS() {
         const noOSTasks = useTasks()
 
         useAsyncEffect(coreSetup, [])
-        useInterval(updateUnixTime, 30000)
+        useInterval(updateUnixTime, 30_000)
 
         return (
             <div className="column h-full">

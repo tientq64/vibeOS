@@ -1,11 +1,16 @@
-import { shutdown, start } from 'live-server'
+import { LiveServerParams, shutdown, start } from 'live-server'
+
+export const { host, port }: LiveServerParams = {
+    host: 'localhost',
+    port: 5500
+}
 
 export function startDevServer(): void {
     shutdown()
 
     start({
-        host: 'localhost',
-        port: 5500,
+        host,
+        port,
         open: false,
         logLevel: 0,
         middleware: [

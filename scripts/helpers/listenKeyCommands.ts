@@ -1,6 +1,7 @@
+import { exec } from 'child_process'
 import { createInterface } from 'readline'
 import { generateCode } from './generateCode'
-import { startDevServer } from './startDevServer'
+import { host, port, startDevServer } from './startDevServer'
 
 export function listenKeyCommands(): void {
     const rl = createInterface({
@@ -10,6 +11,7 @@ export function listenKeyCommands(): void {
 
     console.log()
     console.log('Các lệnh:')
+    console.log('[o] Mở trong trình duyệt.')
     console.log('[r] Khởi động lại dev server.')
     console.log('[g] Tạo lại code.')
     console.log()
@@ -18,6 +20,10 @@ export function listenKeyCommands(): void {
         input = input.trim()
 
         switch (input) {
+            case 'o':
+                exec(`start http://${host}:${port}`)
+                break
+
             case 'r':
                 startDevServer()
                 break

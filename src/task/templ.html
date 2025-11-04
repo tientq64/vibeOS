@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" class="dark h-full">
+<html lang="vi" class="dark">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,18 +10,26 @@
 
         <style>
             @font-face {
-                src: url('/C/fonts/VibeOS-Regular.otf');
+                src: url('/C/fonts/VibeOS.ttf');
                 font-family: VibeOS;
             }
             @font-face {
-                src: url('/C/fonts/VibeOSIcon-Regular.otf');
-                font-family: VibeOSIcon;
+                src: url('/C/fonts/VibeOS-Icons.ttf');
+                font-family: VibeOS-Icons;
             }
         </style>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "modern-monaco": "https://esm.sh/modern-monaco"
+                }
+            }
+        </script>
     </head>
 
-    <body class="h-full overflow-hidden bg-neutral-900 text-white select-none">
-        <div class="h-full" id="os-root">
+    <body>
+        <div id="os-root">
             <script type="module">
                 import 'https://esm.sh/@tailwindcss/browser@4'
                 import * as ahooks from 'https://esm.sh/ahooks@3?deps=react@18,react-dom@18'

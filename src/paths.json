@@ -146,6 +146,7 @@
         "/src/task/store/task.ts"
     ],
     "/C/apps/*": [
+        "/C/apps/CodeEditor",
         "/C/apps/FileManager",
         "/C/apps/UIShowcase",
         "/C/apps/VibeOS"
@@ -155,8 +156,10 @@
         "/C/fonts",
         "/C/images",
         "/C/audios/musics",
-        "/C/fonts/VibeOS-Regular.otf",
-        "/C/fonts/VibeOSIcon-Regular.otf",
+        "/C/fonts/VibeOS-Icons.pxf",
+        "/C/fonts/VibeOS-Icons.ttf",
+        "/C/fonts/VibeOS.pxf",
+        "/C/fonts/VibeOS.ttf",
         "/C/images/logo",
         "/C/audios/musics/pixeltown-color-parade.mp3",
         "/C/images/logo/logo-16.png",

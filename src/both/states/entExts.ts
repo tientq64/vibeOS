@@ -16,15 +16,33 @@ const entExts = createProxy<EntExt[]>(() => {
     const inputs: EntExtInput[] = [
         {
             icon: '{appIcon}',
-            bases: ['app.vibe']
+            bases: ['app.vibe'],
+            noEditable: true
         },
         {
             icon: '{targetIcon}',
-            exts: ['lnk']
+            exts: ['lnk'],
+            noEditable: true
+        },
+        {
+            icon: 'typescript',
+            extsPattern: /^(tsx?)$/
+        },
+        {
+            icon: 'javascript',
+            extsPattern: /^(jsx?)$/
+        },
+        {
+            icon: 'css',
+            extsPattern: /^(css?)$/
+        },
+        {
+            icon: 'html',
+            extsPattern: /^(html?)$/
         },
         {
             icon: 'code',
-            extsPattern: /^(tsx?|jsx?|css|html|ya?ml)$/
+            extsPattern: /^(json|ya?ml)$/
         },
         {
             icon: 'image',
@@ -37,6 +55,10 @@ const entExts = createProxy<EntExt[]>(() => {
         {
             icon: 'video',
             extsPattern: /^(mp4|3gp|webm|avi|mov|wmv|mkv)$/
+        },
+        {
+            icon: 'markdown',
+            extsPattern: /^(md)$/
         },
         {
             icon: 'paragraph',

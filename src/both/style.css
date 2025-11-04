@@ -24,11 +24,26 @@
 @utility column {
     @apply flex flex-col justify-center;
 }
+@utility font-adjust-* {
+    font-size-adjust: --value([number]);
+}
+@utility font-pixel-adjust-* {
+    font-size-adjust: calc(15 / (--value(integer) * 2 - 2));
+}
 
 @layer base {
     *,
     ::before,
     ::after {
         @apply border-neutral-600;
+    }
+    html {
+        @apply h-full;
+    }
+    body {
+        @apply font-pixel-adjust-13 h-full overflow-hidden bg-neutral-900 text-neutral-200 select-none;
+    }
+    #os-root {
+        @apply h-full;
     }
 }

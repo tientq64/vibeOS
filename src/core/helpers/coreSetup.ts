@@ -19,5 +19,5 @@ async function coreSetup(): Promise<void> {
             viewMode: 'tiles'
         }
     })
-    runTask('/C/apps/FileManager')
+    runTask('/C/apps/CodeEditor')
 }
