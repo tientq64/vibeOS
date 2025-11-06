@@ -1,3 +1,3 @@
-interface Shortcut {
+export interface Shortcut {
     targetPath: string
 }

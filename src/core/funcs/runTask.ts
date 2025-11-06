@@ -1,4 +1,19 @@
-function runTask(this: MaybeTask, appPath: string, prefer: TaskPrefer = {}): Task {
+import { incrId } from '@both/funcs/incrId'
+import { isObject } from '@both/funcs/isObject'
+import { normPath } from '@both/funcs/normPath'
+import { uniqId } from '@both/funcs/uniqId'
+import { App } from '@both/states/apps'
+import { AppTypeName } from '@both/states/appTypes'
+import { MaybeTask, Task, TaskPrefer, tasks } from '@both/states/tasks'
+import { bothMembers } from '@both/store/store'
+import { Obj } from '@both/types/types'
+import { getApp } from '@core/helpers/getApp'
+import { undefOr } from '@core/helpers/undefOr'
+import { desktop } from '@core/states/desktop'
+import { coreMembers } from '@core/store/store'
+import { proxy } from 'valtio'
+
+export function runTask(this: MaybeTask, appPath: string, prefer: TaskPrefer = {}): Task {
     appPath = normPath(appPath)
 
     prefer = structuredClone(prefer)
@@ -61,8 +76,8 @@ function runTask(this: MaybeTask, appPath: string, prefer: TaskPrefer = {}): Tas
         secretId,
         frameInited,
         postMessage: undefined,
-        ...both,
-        ...core
+        ...bothMembers,
+        ...coreMembers
     })
     tasks.push(task)
 

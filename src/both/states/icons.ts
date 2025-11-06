@@ -1,4 +1,6 @@
-const icons: (string | undefined)[] = ref([
+import { ref } from '@both/funcs/ref'
+
+export const icons: (string | undefined)[] = ref([
     'task',
     'home',
     'comment',

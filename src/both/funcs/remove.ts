@@ -1,4 +1,4 @@
-function remove<T>(list: T[], predicate: Partial<Record<keyof T, unknown>>): T[] {
+export function remove<T>(list: T[], predicate: Partial<Record<keyof T, unknown>>): T[] {
     const keys = Object.keys(predicate)
 
     const index: number = list.findIndex((item) => {

@@ -1,13 +1,17 @@
-function undefOr(type: 'string', val: unknown): string | undefined
-function undefOr(type: 'float', val: unknown): number | undefined
-function undefOr(type: 'int', val: unknown): number | undefined
-function undefOr(type: 'uint', val: unknown): number | undefined
-function undefOr(type: 'boolean', val: unknown): boolean | undefined
-function undefOr(type: 'object', val: unknown): Obj | undefined
-function undefOr(type: 'array', val: unknown): unknown[] | undefined
-function undefOr(type: 'non-empty-string', val: unknown): string | undefined
+import { isArray } from '@both/funcs/isArray'
+import { isObject } from '@both/funcs/isObject'
+import { Obj } from '@both/types/types'
 
-function undefOr(type: string, val: unknown) {
+export function undefOr(type: 'string', val: unknown): string | undefined
+export function undefOr(type: 'float', val: unknown): number | undefined
+export function undefOr(type: 'int', val: unknown): number | undefined
+export function undefOr(type: 'uint', val: unknown): number | undefined
+export function undefOr(type: 'boolean', val: unknown): boolean | undefined
+export function undefOr(type: 'object', val: unknown): Obj | undefined
+export function undefOr(type: 'array', val: unknown): unknown[] | undefined
+export function undefOr(type: 'non-empty-string', val: unknown): string | undefined
+
+export function undefOr(type: string, val: unknown) {
     if (val === undefined) return undefined
 
     switch (type) {
@@ -25,6 +29,7 @@ function undefOr(type: string, val: unknown) {
         case 'uint': {
             const val2: number = Math.round(Number(val))
             if (val2 >= 0) return val
+            break
         }
         case 'boolean':
             return Boolean(val)

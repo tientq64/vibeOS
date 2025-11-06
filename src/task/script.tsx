@@ -1,22 +1,19 @@
-// @ts-nocheck
+import '@both/script'
 
-secretId = '__task.secretId__'
+import { FrameTask } from '@task/components/FrameTask'
+import { secret } from '@task/constants/secret'
+import { initFrame } from '@task/helpers/initFrame'
+import { taskReceiveMessage } from '@task/helpers/taskReceiveMessage'
+import { createRoot } from 'react-dom/client'
+
+secret.secretId = '__secretId__'
 
 document.querySelector('#os-root > script')?.remove()
 window.addEventListener('message', taskReceiveMessage)
 
 await initFrame()
 
-!(function (secretId, postMessageFunc, initFrame): void {
-    // prettier-ignore
-    __tsx__
+const { App } = await import('@task/components/App')
 
-    !(async function (): void {
-        const App = await __task.name__?.(ts)
-
-        if (typeof App === 'function') {
-            const rootEl = document.getElementById('os-root')!
-            ReactDOM.createRoot(rootEl).render(<FrameTask Component={App} />)
-        }
-    })()
-})()
+const rootEl = document.getElementById('os-root')!
+createRoot(rootEl).render(<FrameTask App={App} />)

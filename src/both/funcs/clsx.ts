@@ -1,4 +1,6 @@
-function clsx(...inputs: any[]): string {
+import { isObject } from '@both/funcs/isObject'
+
+export function clsx(...inputs: any[]): string {
     let classNames: string[] = []
     for (const input of inputs) {
         if (Array.isArray(input)) {

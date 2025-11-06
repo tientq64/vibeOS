@@ -1,4 +1,6 @@
-function resolvePath(...paths: string[]): string {
+import { splitPath } from '@both/funcs/splitPath'
+
+export function resolvePath(...paths: string[]): string {
     if (paths.length === 0) return ''
 
     let nodes: string[] = []

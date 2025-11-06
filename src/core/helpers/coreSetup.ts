@@ -1,4 +1,11 @@
-async function coreSetup(): Promise<void> {
+import { AppInstallTypeName } from '@both/constants/appInstallTypes'
+import { bothSetup } from '@both/helpers/bothSetup'
+import { installApp } from '@core/funcs/installApp'
+import { runTask } from '@core/funcs/runTask'
+import { coreReceiveMessage } from '@core/helpers/coreReceiveMessage'
+import { handleWindowResize } from '@core/helpers/handleWindowResize'
+
+export async function coreSetup(): Promise<void> {
     await bothSetup()
 
     for (const path of Paths['/C/apps/*']) {

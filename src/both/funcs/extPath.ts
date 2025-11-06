@@ -1,4 +1,6 @@
-function extPath(path: string, withDot?: boolean): string {
+import { basePath } from '@both/funcs/basePath'
+
+export function extPath(path: string, withDot?: boolean): string {
     const base: string = basePath(path)
     const index = base.lastIndexOf('.')
     const start = index + (withDot ? 0 : 1)

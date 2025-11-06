@@ -1,4 +1,8 @@
-interface Task extends Both, Core {
+import { App } from '@both/states/apps'
+import { Obj } from '@both/types/types'
+import { proxy } from 'valtio'
+
+export interface Task {
     id: number
     appId: App['id']
     path: App['path']
@@ -20,7 +24,7 @@ interface Task extends Both, Core {
     postMessage: Window['postMessage'] | undefined
 }
 
-type TaskPrefer = Partial<
+export type TaskPrefer = Partial<
     Pick<
         Task,
         | 'icon'
@@ -37,6 +41,6 @@ type TaskPrefer = Partial<
     >
 >
 
-type MaybeTask = Task | undefined | void
+export type MaybeTask = Task | undefined | void
 
-const tasks: Task[] = proxy([])
+export const tasks: Task[] = proxy([])

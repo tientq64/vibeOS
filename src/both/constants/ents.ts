@@ -1,4 +1,4 @@
-interface Ent {
+export interface Ent {
     name: string
     path: string
     isDir: boolean
@@ -10,4 +10,4 @@ interface Ent {
     children?: Ent[]
 }
 
-type BaseEnt = Pick<Ent, 'name' | 'path' | 'isDir' | 'isFile' | 'mtime' | 'size' | 'ext'>
+export type BaseEnt = Pick<Ent, 'name' | 'path' | 'isDir' | 'isFile' | 'mtime' | 'size' | 'ext'>

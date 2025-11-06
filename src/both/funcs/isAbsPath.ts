@@ -1,3 +1,3 @@
-function isAbsPath(path: string): boolean {
+export function isAbsPath(path: string): boolean {
     return path[0] === '/'
 }

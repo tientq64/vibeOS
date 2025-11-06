@@ -1,4 +1,12 @@
-async function taskReceiveMessage(event: MessageEvent): Promise<void> {
+import { find } from '@both/funcs/find'
+import { isFunction } from '@both/funcs/isFunction'
+import { remove } from '@both/funcs/remove'
+import { isMessage } from '@both/helpers/isMessage'
+import { messenger } from '@both/states/messenger'
+import { taskSend } from '@task/helpers/taskSend'
+import { ts, TS } from '@task/store/ts'
+
+export async function taskReceiveMessage(event: MessageEvent): Promise<void> {
     if (!isMessage(event.data)) return
 
     const { messageId, isRequest, funcName, funcArgs, result, isError } = event.data

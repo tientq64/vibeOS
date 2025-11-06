@@ -1,16 +1,16 @@
-enum SizeName {
+export enum SizeName {
     Sm = 'sm',
     Md = 'md',
     Lg = 'lg'
 }
 
-interface Size {
+export interface Size {
     name: SizeName
     className: string
     buttonClassName: string
 }
 
-const sizes: Size[] = [
+export const sizes: Size[] = [
     {
         name: SizeName.Sm,
         className: 'h-7',

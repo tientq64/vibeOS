@@ -1,7 +1,9 @@
-interface Time {
+import { proxy } from 'valtio'
+
+export interface Time {
     unixTime: number
 }
 
-const time = proxy({
+export const time = proxy({
     unixTime: Date.now()
 })

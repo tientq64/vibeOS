@@ -1,4 +1,4 @@
-enum AppInstallTypeName {
+export enum AppInstallTypeName {
     OS = 'os',
     Setup = 'setup'
 }

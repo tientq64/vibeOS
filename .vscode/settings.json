@@ -1,22 +1,33 @@
 {
-	"editor.codeActionsOnSave": {
-		// "source.addMissingImports.ts": "explicit",
-		"source.organizeImports": "explicit",
-		"source.fixAll.ts": "explicit"
-	},
-	"typescript.preferences.useAliasesForRenames": false,
+    "editor.codeActionsOnSave": {
+        "source.addMissingImports.ts": "explicit",
+        "source.organizeImports": "explicit",
+        "source.fixAll.ts": "explicit"
+    },
+    "typescript.preferences.useAliasesForRenames": false,
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "files.readonlyInclude": {
+        "src/*/store/store.ts": true
+    },
     "files.associations": {
         "*.css": "tailwindcss",
-        "*.vibe": "yaml",
+        "*.vibe": "yaml"
     },
     "material-icon-theme.folders.associations": {
         "src/both": "shared",
         "src/task": "tasks"
     },
+    "search.exclude": {
+        "node_modules": true,
+        "pnpm-lock.yaml": true
+    },
     "[typescript]": {
         "editor.formatOnSave": true
     },
     "[typescriptreact]": {
+        "editor.formatOnSave": true
+    },
+    "[javascript]": {
         "editor.formatOnSave": true
     },
     "[tailwindcss]": {
@@ -28,6 +39,7 @@
     "[yaml]": {
         "editor.formatOnSave": true
     },
-    "typescript.tsdk": "node_modules\\typescript\\lib",
-    "iridium.npm.showSupportIcon": false
+    "[markdown]": {
+        "editor.formatOnSave": true
+    }
 }

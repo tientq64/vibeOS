@@ -1,1 +1,1 @@
-async function bothSetup(): Promise<void> {}
+export async function bothSetup(): Promise<void> {}

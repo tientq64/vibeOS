@@ -1,1 +1,1 @@
-function noop(): void {}
+export function noop(): void {}

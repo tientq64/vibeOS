@@ -2,23 +2,61 @@ import { sync } from 'fast-glob'
 import { writeFileSync } from 'fs'
 import { basename } from 'path'
 
-export function generateFuncsFile(): void {
-    const osFuncNames = sync('src/core/funcs/*').map((path) => basename(path, '.ts'))
-    const taskFuncNames = sync('src/task/funcs/*').map((path) => basename(path, '.ts'))
+function readBaseNames(glob: string): string[] {
+    return sync(glob)
+        .filter((path) => typeof path === 'string')
+        .map((path) => basename(path).replace(/\.tsx?$/, ''))
+}
 
-    let code: string = `
-        const osFuncNames = [
-            ${osFuncNames.map((name) => `'${name}'`).join(',\n')}
-        ]
-        interface OSFuncs {
-            ${osFuncNames.map((name) => `${name}: MakePromiseReturn<typeof ${name}>`).join('\n')}
+export function generateFuncsFile(): void {
+    const areas = [
+        {
+            name: 'both',
+            upperName: 'Both',
+            isBoth: true
+        },
+        {
+            name: 'core',
+            upperName: 'Core',
+            isBoth: false
+        },
+        {
+            name: 'task',
+            upperName: 'Task',
+            isBoth: false
         }
-        const taskFuncNames = [
-            ${taskFuncNames.map((name) => `'${name}'`).join(',\n')}
+    ]
+    let funcsCodes = []
+    for (const { name, upperName, isBoth } of areas) {
+        const states = readBaseNames(`src/${name}/states/*`)
+        const funcs = readBaseNames(`src/${name}/funcs/*`)
+        const members = [...states, ...funcs]
+
+        const codes = [
+            !isBoth && "import { MakePromiseReturn } from '@both/types/types'",
+            states.map((state) => {
+                return `import { ${state} } from '@${name}/states/${state}'`
+            }),
+            funcs.map((func) => {
+                return `import { ${func} } from '@${name}/funcs/${func}'`
+            }),
+            `export const ${name}Funcs = { ${funcs} }`,
+            `export type ${upperName}Funcs = typeof ${name}Funcs`,
+            !isBoth && `export type ${upperName}AsyncFuncs = {`,
+            !isBoth && funcs.map((func) => `${func}: MakePromiseReturn<typeof ${func}>`),
+            !isBoth && '}',
+            `export const ${name}Members = { ...${name}Funcs, ${states} }`,
+            `export type ${upperName}Member = typeof ${name}Members`
         ]
-        interface TaskFuncs {
-            ${taskFuncNames.map((name) => `${name}: MakePromiseReturn<typeof ${name}>`).join('\n')}
-        }
-    `
-    writeFileSync('src/both/constants/funcs.ts', code)
+        const code = codes.flat().filter(Boolean).join('\n').replace(/^ +/gm, '')
+        writeFileSync(`src/${name}/store/store.ts`, code)
+
+        funcsCodes.push(
+            `export const ${name}FuncNames: string[] = [`,
+            funcs.map((func) => `'${func}'`).join(','),
+            ']'
+        )
+    }
+    const funcsCode = funcsCodes.join('\n')
+    writeFileSync('src/both/constants/funcNames.ts', funcsCode)
 }

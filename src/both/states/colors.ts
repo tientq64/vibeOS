@@ -1,4 +1,7 @@
-enum ColorName {
+import { clsx } from '@both/funcs/clsx'
+import { ref } from '@both/funcs/ref'
+
+export enum ColorName {
     Zinc = 'zinc',
     Red = 'red',
     Amber = 'amber',
@@ -6,12 +9,12 @@ enum ColorName {
     Blue = 'blue'
 }
 
-interface Color {
+export interface Color {
     name: string
     className: string
 }
 
-const colors: Color[] = ref([
+export const colors: Color[] = ref([
     {
         name: ColorName.Zinc,
         className: clsx('border-neutral-500 bg-neutral-600 shadow-neutral-600')

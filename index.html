@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>VibeOS</title>
 
-        <link rel="icon" href="./C/images/logo/logo-16.png" />
+        <link rel="icon" href="/C/images/logo/logo-16.png" />
 
         <style id="os-css" type="text/tailwindcss"></style>
 
@@ -19,42 +19,45 @@
                 font-family: VibeOS-Icons;
             }
         </style>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "react": "https://esm.sh/react@19.2.0",
+                    "react-dom/client": "https://esm.sh/react-dom@19.2.0/client",
+                    "react/jsx-runtime": "https://esm.sh/react@19.2.0/jsx-runtime",
+                    "ahooks": "https://esm.sh/ahooks@3.9.6",
+                    "valtio": "https://esm.sh/valtio@2.2.0",
+                    "tailwind-merge": "https://esm.sh/tailwind-merge@3.3.1",
+                    "dayjs": "https://esm.sh/dayjs@1.11.19",
+                    "js-yaml": "https://esm.sh/js-yaml@4.1.0",
+                    "yup": "https://esm.sh/yup@1.7.1",
+                    "motion": "https://esm.sh/motion@12.23.24",
+                    "motion/react": "https://esm.sh/motion@12.23.24/react",
+                    "@tailwindcss/browser": "https://esm.sh/@tailwindcss/browser@4.1.17",
+                    "bro-fs": "https://esm.sh/bro-fs@0.6.0",
+                    "esbuild-wasm": "https://esm.sh/esbuild-wasm@0.25.12"
+                }
+            }
+        </script>
     </head>
 
     <body>
         <div id="os-root">
             <script type="module">
-                import 'https://esm.sh/@tailwindcss/browser@4'
-                import * as React from 'https://esm.sh/react@18'
-                import * as ReactDOM from 'https://esm.sh/react-dom@18'
-                import fs from 'https://esm.sh/bro-fs@0.6.0'
-                import jsyaml from 'https://esm.sh/js-yaml@4'
-                import * as ahooks from 'https://esm.sh/ahooks@3?deps=react@18,react-dom@18'
-                import * as valtio from 'https://esm.sh/valtio@1.13.2?deps=react@18,react-dom@18'
-                import { twMerge } from 'https://esm.sh/tailwind-merge@3.3.1'
-                import dayjs from 'https://esm.sh/dayjs@1.11.18'
-                import * as yup from 'https://esm.sh/yup@1.7.1'
-                import * as motionReact from 'https://esm.sh/motion@12.23.24/react?deps=react@18'
-                import typescript from 'https://esm.sh/typescript@5.9.3'
+                import { transformCode } from './esbuild.js'
 
-                window.React = React
-                window.ReactDOM = ReactDOM
-                window.valtio = valtio
-                window.ahooks = ahooks
-                window.twMerge = twMerge
-                window.dayjs = dayjs
-                window.yup = yup
-                window.motionReact = motionReact
-                window.typescript = typescript
-                window.jsyaml = jsyaml
-                window.fs = fs
+                const bootTs = await fetch('./boot.ts').then((res) => res.text())
+                const result = await transformCode(bootTs, {
+                    format: 'esm',
+                    loader: 'ts',
+                    minify: true
+                })
 
-                const [code, { compilerOptions }] = await Promise.all([
-                    fetch('./src/boot.ts').then((res) => res.text()),
-                    fetch('./tsconfig.json').then((res) => res.json())
-                ])
-                const js = typescript.transpile(code, compilerOptions)
-                eval(js)
+                const script = document.createElement('script')
+                script.type = 'module'
+                script.text = result.code
+                document.body.appendChild(script)
             </script>
         </div>
     </body>

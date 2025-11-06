@@ -1,3 +1,7 @@
+import { tw } from '@both/funcs/tw'
+import { useUniqId } from '@both/hooks/useUniqId'
+import { ReactNode } from 'react'
+
 interface TableProps {
     className?: string
     fixed?: (number | string)[]
@@ -5,7 +9,7 @@ interface TableProps {
     children?: ReactNode
 }
 
-function Table({ className, fixed, noWrap, children }: TableProps): ReactNode {
+export function Table({ className, fixed, noWrap, children }: TableProps): ReactNode {
     const tableId = useUniqId()
 
     return (

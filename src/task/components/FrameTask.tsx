@@ -1,9 +1,13 @@
+import { taskSetup } from '@task/helpers/taskSetup'
+import { useAsyncEffect } from 'ahooks'
+import { ReactNode } from 'react'
+
 interface FrameTaskProps {
-    Component: () => ReactNode
+    App: () => ReactNode
 }
 
-function FrameTask({ Component }: FrameTaskProps): ReactNode {
+export function FrameTask({ App }: FrameTaskProps): ReactNode {
     useAsyncEffect(taskSetup, [])
 
-    return <Component />
+    return <App />
 }

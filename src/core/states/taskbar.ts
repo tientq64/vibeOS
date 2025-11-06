@@ -1,7 +1,7 @@
-interface Taskbar {
+export interface Taskbar {
     height: number
 }
 
-const taskbar: Taskbar = {
+export const taskbar: Taskbar = {
     height: 44
 }

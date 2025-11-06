@@ -1,4 +1,11 @@
-async function resolveEntIcon(ent: BaseEnt): Promise<string> {
+import { BaseEnt } from '@both/constants/ents'
+import { basePath } from '@both/funcs/basePath'
+import { EntExt, entExts } from '@both/states/entExts'
+import { getEnt } from '@core/funcs/getEnt'
+import { resolveShortcut } from '@core/funcs/resolveShortcut'
+import { getApp } from '@core/helpers/getApp'
+
+export async function resolveEntIcon(ent: BaseEnt): Promise<string> {
     const entExt: EntExt | undefined = entExts.find((entExt) => {
         if (ent.isDir !== entExt.isDir) return
 

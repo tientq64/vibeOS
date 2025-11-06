@@ -1,6 +1,9 @@
-function getAppType(name: AppTypeName): AppType
-function getAppType(name: any): AppType | undefined
+import { find } from '@both/funcs/find'
+import { AppType, AppTypeName, appTypes } from '@both/states/appTypes'
 
-function getAppType(name: AppTypeName | any): AppType | undefined {
-    return appTypes.find((appType) => appType.name === name)
+export function getAppType(name: AppTypeName): AppType
+export function getAppType(name: any): AppType | undefined
+
+export function getAppType(name: AppTypeName | any): AppType | undefined {
+    return find(appTypes, { name })
 }

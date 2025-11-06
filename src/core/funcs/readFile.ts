@@ -1,22 +1,36 @@
-function readFile(
+import { Ent } from '@both/constants/ents'
+import { ReadFileDataType } from '@both/constants/readFileDataTypes'
+import { entToPath } from '@both/funcs/entToPath'
+import { MaybeTask } from '@both/states/tasks'
+import { fs } from '@core/constants/fs'
+
+export function readFile(
     this: MaybeTask,
     path: string | Ent,
     type: ReadFileDataType.DataUrl
 ): Promise<string>
-function readFile(
+export function readFile(
     this: MaybeTask,
     path: string | Ent,
     type: ReadFileDataType.Buffer
 ): Promise<ArrayBuffer>
-function readFile(this: MaybeTask, path: string | Ent, type: ReadFileDataType.Blob): Promise<Blob>
-function readFile(this: MaybeTask, path: string | Ent, type: ReadFileDataType.File): Promise<File>
-function readFile(
+export function readFile(
+    this: MaybeTask,
+    path: string | Ent,
+    type: ReadFileDataType.Blob
+): Promise<Blob>
+export function readFile(
+    this: MaybeTask,
+    path: string | Ent,
+    type: ReadFileDataType.File
+): Promise<File>
+export function readFile(
     this: MaybeTask,
     path: string | Ent,
     type?: ReadFileDataType.Text
 ): Promise<string>
 
-async function readFile(
+export async function readFile(
     this: MaybeTask,
     path: string | Ent,
     type?: ReadFileDataType

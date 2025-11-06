@@ -1,11 +1,29 @@
+import { Button } from '@both/components/Button'
+import { Icon } from '@both/components/Icon'
+import { clamp } from '@both/funcs/clamp'
+import { clsx } from '@both/funcs/clsx'
+import { isSelfEvent } from '@both/funcs/isSelfEvent'
+import { ref } from '@both/funcs/ref'
+import { AppTypeName } from '@both/states/appTypes'
+import { ColorName } from '@both/states/colors'
+import { SizeName } from '@both/states/sizes'
+import { Task } from '@both/states/tasks'
+import { VibeOS } from '@core/components/VibeOS'
+import { maximize } from '@core/funcs/maximize'
+import { readFile } from '@core/funcs/readFile'
+import { extractImportmapFromHtml, Importmap } from '@core/helpers/extractImportmapFromHtml'
+import { desktop } from '@core/states/desktop'
+import { useAsyncEffect } from 'ahooks'
+import { motion, useDragControls } from 'motion/react'
+import { createElement, PointerEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+
 interface TaskProps {
     task: Task
 }
 
-function Task({ task }: TaskProps): ReactNode {
+export function CoreTask({ task }: TaskProps): ReactNode {
     const [html, setHtml] = useState<string>('')
-    const [js, setJs] = useState<string | undefined>()
-    const [css, setCss] = useState<string | undefined>()
 
     const [dragging, setDragging] = useState<boolean>(false)
     const dragControl = useDragControls()
@@ -17,71 +35,81 @@ function Task({ task }: TaskProps): ReactNode {
         return task.type === AppTypeName.OS || task.type === AppTypeName.Core
     }, [task.type])
 
-    const handleHeaderPointerDown = (event: ReactPointerEvent): void => {
+    const handleHeaderPointerDown = (event: PointerEvent): void => {
         if (!isSelfEvent(event)) return
         if (task.fullscreen || task.maximized) return
         dragControl.start(event)
     }
 
     useAsyncEffect(async () => {
+        if (noIframe) return
+        const codePlaceholderRegex: RegExp = /__([\w.]+)__|\{\{([\w.]+)\}\}/g
         let tsx: string
         let css: string
+        let importmapHtml: string
         tsx = await readFile(`${task.path}/app.tsx`)
         try {
             css = await readFile(`${task.path}/app.css`)
         } catch {
             css = ''
         }
+        try {
+            importmapHtml = await readFile(`${task.path}/index.html`)
+        } catch {
+            importmapHtml = ''
+        }
+        const taskEntryPath = '/src/task/script'
+        const taskEntry = srcCodes.find((entry) => entry[0] === taskEntryPath)!
+        const taskEntryInjectVars = {
+            secretId: task.secretId
+        }
+        const taskEntryCode = taskEntry[1].replace(codePlaceholderRegex, (_, jsVarName) => {
+            return taskEntryInjectVars[jsVarName as keyof typeof taskEntryInjectVars]
+        })
+        const injectedSrcCodes = srcCodes.map<[string, string]>((entry) => {
+            if (entry[0] === '/src/task/components/App') {
+                return [entry[0], tsx]
+            }
+            if (entry[0] === taskEntryPath) {
+                return [taskEntryPath, taskEntryCode]
+            }
+            return entry
+        })
+        const result = await buildCode('@task/script', injectedSrcCodes)
+        const js = result.outputFiles?.[0].text
+        if (js === undefined) {
+            throw Error(`Ứng dụng lỗi: ${result.errors}`)
+        }
+        css = bothCss + css
+        let importmapJson: string = ''
+        if (importmapHtml) {
+            const importmap: Importmap = extractImportmapFromHtml(importmapHtml)
+            importmapJson = JSON.stringify(importmap)
+        }
+        const htmlInjectVars = { js, css, importmapJson }
+        let html: string = templHtml.replace(codePlaceholderRegex, (_, jsVarName, cssVarName) => {
+            return htmlInjectVars[(jsVarName || cssVarName) as keyof typeof htmlInjectVars]
+        })
+        setHtml(html)
+    }, [])
 
-        if (noIframe) {
-            tsx = `${tsx}; ${task.name}`
-            const js: string = typescript.transpile(tsx, compilerOptions)
-            setJs(js)
-            setCss(css)
-        } else {
-            const codePlaceholderRegex: RegExp = /__([\w.]+)__|\{\{([\w.]+)\}\}/g
-            tsx = taskTsx.replace(codePlaceholderRegex, (_, jsVarName) => {
-                return eval(jsVarName)
-            })
-            tsx =
-                bothConstantsTs +
-                taskConstantsTs +
-                bothStatesTs +
-                taskStatesTs +
-                //
-                bothComponentsTs +
-                bothHooksTs +
-                bothFuncsTs +
-                bothHelpersTs +
-                bothStoreTs +
-                //
-                taskComponentsTs +
-                taskHooksTs +
-                taskFuncsTs +
-                taskHelpersTs +
-                taskStoreTs +
-                //
-                bothTsx +
-                tsx
-            const js: string = typescript.transpile(tsx, compilerOptions)
-            css = bothCss + taskCss + css
-            let html: string = taskHtml.replace(
-                codePlaceholderRegex,
-                (_, jsVarName, cssVarName) => {
-                    return eval(jsVarName || cssVarName)
-                }
-            )
-            setHtml(html)
+    useEffect(() => {
+        if (!noIframe) return
+        if (mountRef.current === null) return
+        const root = createRoot(mountRef.current)
+        root.render(<VibeOS />)
+        return () => {
+            root.unmount()
         }
     }, [])
 
     useEffect(() => {
         if (noIframe) return
-        const contentWindow = iframeRef?.current?.contentWindow
+        const contentWindow = iframeRef.current?.contentWindow
         if (!contentWindow) return
         const postMessageFunc = contentWindow.postMessage.bind(contentWindow)
         task.postMessage = ref(postMessageFunc)
-    }, [iframeRef.current])
+    }, [])
 
     useEffect(() => {
         if (noIframe) return
@@ -102,23 +130,7 @@ function Task({ task }: TaskProps): ReactNode {
         )
         iframe.srcdoc = html
         setHtml('')
-    }, [html, iframeRef.current])
-
-    useAsyncEffect(async () => {
-        if (!noIframe) return
-        if (js === undefined || css === undefined || mountRef.current === null) return
-        const component = await eval(js)(task)
-        const root = ReactDOM.createRoot(mountRef.current)
-        root.render(React.createElement(component))
-        setJs(undefined)
-        setCss(undefined)
-    }, [js, css, mountRef.current])
-
-    useEffect(() => {
-        // if (task.fullscreen && task.type !== AppTypeName.OS) {
-        //     task.fullscreen = false
-        // }
-    }, [task.fullscreen])
+    }, [html])
 
     const taskRect = useMemo(() => {
         return {
@@ -218,7 +230,7 @@ function Task({ task }: TaskProps): ReactNode {
                     borderRadius: task.fullscreen || task.maximized ? 0 : undefined
                 }}
             >
-                {React.createElement(noIframe ? motion.div : motion.iframe, {
+                {createElement(noIframe ? motion.div : motion.iframe, {
                     ref: (noIframe ? mountRef : iframeRef) as any,
                     className: clsx(
                         'h-full w-full bg-neutral-900',

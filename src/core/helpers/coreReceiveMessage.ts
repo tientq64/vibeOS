@@ -1,10 +1,18 @@
-async function coreReceiveMessage(event: MessageEvent): Promise<void> {
+import { find } from '@both/funcs/find'
+import { isFunction } from '@both/funcs/isFunction'
+import { remove } from '@both/funcs/remove'
+import { isMessage } from '@both/helpers/isMessage'
+import { messenger } from '@both/states/messenger'
+import { Task, tasks } from '@both/states/tasks'
+import { coreSend } from '@core/helpers/coreSend'
+
+export async function coreReceiveMessage(event: MessageEvent): Promise<void> {
     if (!isMessage(event.data)) return
 
     const { messageId, isRequest, secretId, funcName, funcArgs, result, isError } = event.data
 
     if (isRequest) {
-        let task: Task | undefined = tasks.find((task) => task.secretId === secretId)
+        let task: Task | undefined = find(tasks, { secretId })
         if (task === undefined) return
         if (funcName === undefined) return
 

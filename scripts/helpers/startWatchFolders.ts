@@ -8,7 +8,7 @@ export function startWatchFolders(): void {
         watcher.close()
     }
     const globs: string[] = [
-        'src/{both,core,task}/{constants,states,components,hooks,funcs,helpers,store}/*',
+        'src/{both,core,task}/**/*.{tsx,ts}', //
         'C/**'
     ]
     watcher = watch(globs, { ignoreInitial: true })

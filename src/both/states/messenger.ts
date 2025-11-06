@@ -1,4 +1,6 @@
-type Message = {
+import { ref } from '@both/funcs/ref'
+
+export type Message = {
     messageId: string
     isRequest: boolean
     secretId?: string
@@ -8,16 +10,16 @@ type Message = {
     isError?: boolean
 }
 
-interface Resolver {
+export interface Resolver {
     messageId: string
     resolve: Function
     reject: Function
 }
 
-interface Messenger {
+export interface Messenger {
     resolvers: Resolver[]
 }
 
-const messenger: Messenger = ref({
+export const messenger: Messenger = ref({
     resolvers: []
 })

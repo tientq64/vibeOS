@@ -1,3 +1,8 @@
+import { clsx } from '@both/funcs/clsx'
+import { tw } from '@both/funcs/tw'
+import { useControllableValue } from 'ahooks'
+import { ChangeEvent, ChangeEventHandler, CSSProperties, ReactElement, ReactNode } from 'react'
+
 interface TextInputProps {
     className?: string
     style?: CSSProperties
@@ -12,7 +17,7 @@ interface TextInputProps {
     onValueChange?: (value: string) => void
 }
 
-function TextInput({
+export function TextInput({
     className,
     style,
     name,
@@ -30,7 +35,7 @@ function TextInput({
         value
     })
 
-    const handleInputChange = (event: ChangeEvent): void => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target
         setControllableValue(value)
         onChange?.(event)

@@ -1,4 +1,6 @@
-function setFullscreen(taskId: number, fullscreen?: boolean): void {
+import { getTask } from '@core/helpers/getTask'
+
+export function setFullscreen(taskId: number, fullscreen?: boolean): void {
     const task = getTask(taskId)
     if (task === undefined) return
 

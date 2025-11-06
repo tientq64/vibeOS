@@ -1,4 +1,9 @@
-interface App {
+import { AppInstallTypeName } from '@both/constants/appInstallTypes'
+import { AppTypeName } from '@both/states/appTypes'
+import { Obj } from '@both/types/types'
+import { proxy } from 'valtio'
+
+export interface App {
     id: string
     path: string
     name: string
@@ -17,4 +22,4 @@ interface App {
     installType: AppInstallTypeName
 }
 
-const apps: App[] = proxy([])
+export const apps: App[] = proxy([])

@@ -1,17 +1,26 @@
+import { Icon } from '@both/components/Icon'
+import { getColor } from '@both/funcs/getColor'
+import { getSize } from '@both/funcs/getSize'
+import { isString } from '@both/funcs/isString'
+import { tw } from '@both/funcs/tw'
+import { ColorName } from '@both/states/colors'
+import { SizeName } from '@both/states/sizes'
+import { MouseEventHandler, ReactNode, useMemo } from 'react'
+
 interface ButtonProps {
     className?: string
-    type?: ButtonHTMLAttributes['type']
+    type?: HTMLButtonElement['type']
     disabled?: boolean
     color?: ColorName
     size?: SizeName
     fill?: boolean
     icon?: string | ReactNode
     rightIcon?: string | ReactNode
-    onClick?: HTMLAttributes['onClick']
+    onClick?: MouseEventHandler
     children?: ReactNode
 }
 
-function Button({
+export function Button({
     className,
     type = 'button',
     disabled,

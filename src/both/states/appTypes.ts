@@ -1,15 +1,17 @@
-enum AppTypeName {
+import { ref } from '@both/funcs/ref'
+
+export enum AppTypeName {
     OS = 'os',
     Core = 'core',
     Normal = 'normal'
 }
 
-interface AppType {
+export interface AppType {
     name: AppTypeName
     text: string
 }
 
-const appTypes: AppType[] = ref([
+export const appTypes: AppType[] = ref([
     {
         name: AppTypeName.OS,
         text: 'Hệ điều hành'

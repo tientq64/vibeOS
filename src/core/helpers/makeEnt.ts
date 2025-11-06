@@ -1,4 +1,10 @@
-async function makeEnt(fsEnt: FileSystemEntry | FileSystemEntryWithChildren): Promise<Ent> {
+import { BaseEnt, Ent } from '@both/constants/ents'
+import { extPath } from '@both/funcs/extPath'
+import { fs } from '@core/constants/fs'
+import { resolveEntIcon } from '@core/funcs/resolveEntIcon'
+import { FileSystemEntryWithChildren } from 'bro-fs'
+
+export async function makeEnt(fsEnt: FileSystemEntry | FileSystemEntryWithChildren): Promise<Ent> {
     const stat = await fs.stat(fsEnt)
 
     const baseEnt: BaseEnt = {
@@ -22,6 +28,5 @@ async function makeEnt(fsEnt: FileSystemEntry | FileSystemEntryWithChildren): Pr
             })
         )
     }
-
     return ent
 }

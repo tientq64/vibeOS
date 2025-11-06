@@ -1,3 +1,5 @@
-function parseYaml(str: string): unknown {
-    return jsyaml.load(str)
+import { load } from 'js-yaml'
+
+export function parseYaml(str: string): unknown {
+    return load(str)
 }

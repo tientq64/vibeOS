@@ -1,4 +1,4 @@
-function find<T>(list: T[], predicate: Partial<Record<keyof T, unknown>>): T | undefined {
+export function find<T>(list: T[], predicate: Partial<Record<keyof T, unknown>>): T | undefined {
     const keys = Object.keys(predicate)
 
     return list.find((item) => {

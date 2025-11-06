@@ -1,4 +1,7 @@
-function splitPath(path: string | [string[], string], resolveDots?: boolean): [string[], string] {
+export function splitPath(
+    path: string | [string[], string],
+    resolveDots?: boolean
+): [string[], string] {
     let abs: string
     let nodes: string[]
 

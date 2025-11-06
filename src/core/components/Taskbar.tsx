@@ -1,4 +1,11 @@
-function Taskbar(): ReactNode {
+import { Icon } from '@both/components/Icon'
+import { TaskbarTask } from '@core/components/TaskbarTask'
+import { TaskbarTrays } from '@core/components/TaskbarTrays'
+import { useOS } from '@core/hooks/useOS'
+import { useTasks } from '@core/hooks/useTasks'
+import { ReactNode } from 'react'
+
+export function Taskbar(): ReactNode {
     const { taskbar } = useOS()
     const noOSTasks = useTasks()
 

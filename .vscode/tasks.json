@@ -11,6 +11,7 @@
             },
             "presentation": {
                 "clear": true,
+                "focus": true
                 // "reveal": "silent"
             }
         }

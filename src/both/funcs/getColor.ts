@@ -1,6 +1,8 @@
-function getColor(name: ColorName): Color
-function getColor(name: unknown): Color | undefined
+import { Color, ColorName, colors } from '@both/states/colors'
 
-function getColor(name: unknown): Color | undefined {
+export function getColor(name: ColorName): Color
+export function getColor(name: unknown): Color | undefined
+
+export function getColor(name: unknown): Color | undefined {
     return colors.find((color) => color.name === name)
 }

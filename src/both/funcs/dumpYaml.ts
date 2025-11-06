@@ -1,3 +1,5 @@
-function dumpYaml(data: unknown): string {
-    return jsyaml.dump(data)
+import { dump } from 'js-yaml'
+
+export function dumpYaml(data: unknown): string {
+    return dump(data)
 }

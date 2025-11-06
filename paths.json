@@ -1,66 +1,22 @@
 {
-    "/src/both/constants/*": [
-        "/src/both/constants/appInstallTypes.ts",
-        "/src/both/constants/constants.ts",
-        "/src/both/constants/ents.ts",
-        "/src/both/constants/funcs.ts",
-        "/src/both/constants/readFileDataTypes.ts",
-        "/src/both/constants/shortcuts.ts"
-    ],
-    "/src/core/constants/*": [],
-    "/src/task/constants/*": [
-        "/src/task/constants/postMessageFunc.ts",
-        "/src/task/constants/secretId.ts"
-    ],
-    "/src/both/states/*": [
-        "/src/both/states/apps.ts",
-        "/src/both/states/appTypes.ts",
-        "/src/both/states/colors.ts",
-        "/src/both/states/entExts.ts",
-        "/src/both/states/icons.ts",
-        "/src/both/states/incrIdState.ts",
-        "/src/both/states/messenger.ts",
-        "/src/both/states/sizes.ts",
-        "/src/both/states/tasks.ts",
-        "/src/both/states/time.ts"
-    ],
-    "/src/core/states/*": [
-        "/src/core/states/desktop.ts",
-        "/src/core/states/taskbar.ts"
-    ],
-    "/src/task/states/*": [
-        "/src/task/states/args.ts"
-    ],
-    "/src/both/components/*": [
+    "/src/{both,core,task}/**/*.{tsx,ts}": [
+        "/src/both/script.tsx",
+        "/src/core/script.tsx",
+        "/src/task/script.tsx",
         "/src/both/components/Button.tsx",
         "/src/both/components/Icon.tsx",
         "/src/both/components/InputGroup.tsx",
         "/src/both/components/Table.tsx",
-        "/src/both/components/TextInput.tsx"
-    ],
-    "/src/core/components/*": [
-        "/src/core/components/Task.tsx",
-        "/src/core/components/Taskbar.tsx",
-        "/src/core/components/TaskbarTask.tsx",
-        "/src/core/components/TaskbarTrays.tsx"
-    ],
-    "/src/task/components/*": [
-        "/src/task/components/FrameTask.tsx"
-    ],
-    "/src/both/hooks/*": [
-        "/src/both/hooks/useUniqId.ts"
-    ],
-    "/src/core/hooks/*": [
-        "/src/core/hooks/useOS.ts",
-        "/src/core/hooks/useTasks.ts"
-    ],
-    "/src/task/hooks/*": [],
-    "/src/both/funcs/*": [
+        "/src/both/components/TextInput.tsx",
+        "/src/both/constants/appInstallTypes.ts",
+        "/src/both/constants/ents.ts",
+        "/src/both/constants/funcNames.ts",
+        "/src/both/constants/readFileDataTypes.ts",
+        "/src/both/constants/shortcuts.ts",
         "/src/both/funcs/absPath.ts",
         "/src/both/funcs/basePath.ts",
         "/src/both/funcs/clamp.ts",
         "/src/both/funcs/clsx.ts",
-        "/src/both/funcs/createProxy.ts",
         "/src/both/funcs/dirPath.ts",
         "/src/both/funcs/dumpYaml.ts",
         "/src/both/funcs/entToPath.ts",
@@ -68,7 +24,6 @@
         "/src/both/funcs/find.ts",
         "/src/both/funcs/formatTime.ts",
         "/src/both/funcs/getAppType.ts",
-        "/src/both/funcs/getArgs.ts",
         "/src/both/funcs/getColor.ts",
         "/src/both/funcs/getSize.ts",
         "/src/both/funcs/incrId.ts",
@@ -83,6 +38,7 @@
         "/src/both/funcs/joinPath.ts",
         "/src/both/funcs/noop.ts",
         "/src/both/funcs/normPath.ts",
+        "/src/both/funcs/parseHtml.ts",
         "/src/both/funcs/parseYaml.ts",
         "/src/both/funcs/ref.ts",
         "/src/both/funcs/remove.ts",
@@ -93,9 +49,27 @@
         "/src/both/funcs/stopPropagation.ts",
         "/src/both/funcs/tw.ts",
         "/src/both/funcs/uniqId.ts",
-        "/src/both/funcs/validate.ts"
-    ],
-    "/src/core/funcs/*": [
+        "/src/both/helpers/bothSetup.ts",
+        "/src/both/helpers/isMessage.ts",
+        "/src/both/hooks/useUniqId.ts",
+        "/src/both/states/apps.ts",
+        "/src/both/states/appTypes.ts",
+        "/src/both/states/colors.ts",
+        "/src/both/states/entExts.ts",
+        "/src/both/states/icons.ts",
+        "/src/both/states/incrIdState.ts",
+        "/src/both/states/messenger.ts",
+        "/src/both/states/sizes.ts",
+        "/src/both/states/tasks.ts",
+        "/src/both/states/time.ts",
+        "/src/both/store/store.ts",
+        "/src/both/types/types.ts",
+        "/src/core/components/CoreTask.tsx",
+        "/src/core/components/Taskbar.tsx",
+        "/src/core/components/TaskbarTask.tsx",
+        "/src/core/components/TaskbarTrays.tsx",
+        "/src/core/components/VibeOS.tsx",
+        "/src/core/constants/fs.ts",
         "/src/core/funcs/createShortcut.ts",
         "/src/core/funcs/getEnt.ts",
         "/src/core/funcs/getFrameInit.ts",
@@ -111,39 +85,44 @@
         "/src/core/funcs/runTask.ts",
         "/src/core/funcs/setFrameInited.ts",
         "/src/core/funcs/setFullscreen.ts",
-        "/src/core/funcs/writeFile.ts"
-    ],
-    "/src/task/funcs/*": [],
-    "/src/both/helpers/*": [
-        "/src/both/helpers/bothSetup.ts",
-        "/src/both/helpers/isMessage.ts"
-    ],
-    "/src/core/helpers/*": [
+        "/src/core/funcs/writeFile.ts",
         "/src/core/helpers/coreReceiveMessage.ts",
         "/src/core/helpers/coreSend.ts",
         "/src/core/helpers/coreSetup.ts",
+        "/src/core/helpers/extractImportmapFromHtml.ts",
         "/src/core/helpers/getApp.ts",
         "/src/core/helpers/getTask.ts",
         "/src/core/helpers/handleWindowResize.ts",
         "/src/core/helpers/makeEnt.ts",
         "/src/core/helpers/undefOr.ts",
         "/src/core/helpers/updateUnixTime.ts",
-        "/src/core/helpers/withTaskPath.ts"
-    ],
-    "/src/task/helpers/*": [
+        "/src/core/helpers/withTaskPath.ts",
+        "/src/core/hooks/useOS.ts",
+        "/src/core/hooks/useTasks.ts",
+        "/src/core/states/desktop.ts",
+        "/src/core/states/taskbar.ts",
+        "/src/core/store/store.ts",
+        "/src/core/types/types.ts",
+        "/src/task/components/App.tsx",
+        "/src/task/components/FrameTask.tsx",
+        "/src/task/constants/secret.ts",
+        "/src/task/helpers/getArgs.ts",
         "/src/task/helpers/initFrame.ts",
         "/src/task/helpers/taskReceiveMessage.ts",
         "/src/task/helpers/taskSend.ts",
-        "/src/task/helpers/taskSetup.ts"
+        "/src/task/helpers/taskSetup.ts",
+        "/src/task/states/args.ts",
+        "/src/task/store/store.ts",
+        "/src/task/store/ts.ts"
     ],
-    "/src/both/store/*": [
-        "/src/both/store/both.ts"
+    "/src/both/**/*.css": [
+        "/src/both/style.css"
     ],
-    "/src/core/store/*": [
-        "/src/core/store/core.ts"
+    "/src/core/**/*.css": [
+        "/src/core/style.css"
     ],
-    "/src/task/store/*": [
-        "/src/task/store/task.ts"
+    "/src/task/**/*.css": [
+        "/src/task/style.css"
     ],
     "/C/apps/*": [
         "/C/apps/CodeEditor",

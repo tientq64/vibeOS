@@ -1,4 +1,6 @@
-function basePath(path: string): string {
+import { splitPath } from '@both/funcs/splitPath'
+
+export function basePath(path: string): string {
     const name: string | undefined = splitPath(path)[0].at(-1)
     return name ?? ''
 }

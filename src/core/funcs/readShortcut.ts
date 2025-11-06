@@ -1,4 +1,10 @@
-async function readShortcut(path: string, count: number = 10): Promise<Shortcut> {
+import { Shortcut } from '@both/constants/shortcuts'
+import { extPath } from '@both/funcs/extPath'
+import { isShortcut } from '@both/funcs/isShortcut'
+import { parseYaml } from '@both/funcs/parseYaml'
+import { fs } from '@core/constants/fs'
+
+export async function readShortcut(path: string, count: number = 10): Promise<Shortcut> {
     if (count <= 0) {
         throw Error('Lối tắt có quá nhiều cấp')
     }

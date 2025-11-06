@@ -1,29 +1,12 @@
 import { sync } from 'fast-glob'
-import { writeJsonSync } from 'fs-extra'
+import { writeFileSync } from 'fs'
 
 export function generatePathsFile(): void {
     const globs = [
-        '/src/both/constants/*',
-        '/src/core/constants/*',
-        '/src/task/constants/*',
-        '/src/both/states/*',
-        '/src/core/states/*',
-        '/src/task/states/*',
-        '/src/both/components/*',
-        '/src/core/components/*',
-        '/src/task/components/*',
-        '/src/both/hooks/*',
-        '/src/core/hooks/*',
-        '/src/task/hooks/*',
-        '/src/both/funcs/*',
-        '/src/core/funcs/*',
-        '/src/task/funcs/*',
-        '/src/both/helpers/*',
-        '/src/core/helpers/*',
-        '/src/task/helpers/*',
-        '/src/both/store/*',
-        '/src/core/store/*',
-        '/src/task/store/*',
+        '/src/{both,core,task}/**/*.{tsx,ts}', //
+        '/src/both/**/*.css',
+        '/src/core/**/*.css',
+        '/src/task/**/*.css',
         '/C/apps/*',
         '/C/!(apps)/**'
     ]
@@ -33,5 +16,6 @@ export function generatePathsFile(): void {
             onlyFiles: false
         }).map((path) => '/' + path)
     }
-    writeJsonSync('src/paths.json', Paths, { spaces: 4 })
+    const json = JSON.stringify(Paths, null, 4)
+    writeFileSync('paths.json', json)
 }
