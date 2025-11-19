@@ -1,19 +1,20 @@
 import { find } from '@both/funcs/find'
 import { isFunction } from '@both/funcs/isFunction'
-import { remove } from '@both/funcs/remove'
+import { removeBy } from '@both/funcs/removeBy'
 import { isMessage } from '@both/helpers/isMessage'
-import { messenger } from '@both/states/messenger'
 import { Task, tasks } from '@both/states/tasks'
-import { coreSend } from '@core/helpers/coreSend'
 
 export async function coreReceiveMessage(event: MessageEvent): Promise<void> {
     if (!isMessage(event.data)) return
 
     const { messageId, isRequest, secretId, funcName, funcArgs, result, isError } = event.data
 
+    let task: Task | undefined = tasks.find((task2) => {
+        return task2.messenger.secretId === secretId
+    })
+    if (task === undefined) return
+
     if (isRequest) {
-        let task: Task | undefined = find(tasks, { secretId })
-        if (task === undefined) return
         if (funcName === undefined) return
 
         let isError: boolean
@@ -32,14 +33,14 @@ export async function coreReceiveMessage(event: MessageEvent): Promise<void> {
             result = Error(`Không tìm thấy hàm "${funcName}"`)
             isError = true
         }
-        coreSend(task, {
+        task.send({
             messageId,
             isRequest: false,
             isError,
             result
         })
     } else {
-        const resolver = find(messenger.resolvers, { messageId })
+        const resolver = find(task.messenger.resolvers, { messageId })
         if (resolver === undefined) return
 
         if (isError) {
@@ -47,6 +48,6 @@ export async function coreReceiveMessage(event: MessageEvent): Promise<void> {
         } else {
             resolver.resolve(result)
         }
-        remove(messenger.resolvers, { messageId })
+        removeBy(task.messenger.resolvers, { messageId })
     }
 }

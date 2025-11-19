@@ -5,9 +5,10 @@ await esbuild.initialize({ wasmURL })
 
 /**
  * @param {[string, string][]} fileCodes
+ * @param {boolean} isTaskSide
  * @returns {import('esbuild-wasm').Plugin}
  */
-function esbuildVibeOSPlugin(fileCodes) {
+function esbuildVibeOSPlugin(fileCodes, isTaskSide) {
     return {
         name: 'vibeos',
         setup(build) {
@@ -20,7 +21,7 @@ function esbuildVibeOSPlugin(fileCodes) {
                         .replace(/^@root\//, '/')
                 }
                 if (importer === '/src/task/components/App') {
-                    if (path === '/src/task/constants/secret') {
+                    if (path === '/src/both/status/messenger') {
                         throw Error(`Không được phép import "${path}"`)
                     }
                 }
@@ -29,11 +30,18 @@ function esbuildVibeOSPlugin(fileCodes) {
                 }
                 return { path, external: true }
             })
-            build.onLoad({ filter: /.*/, namespace: 'vibeos' }, (args) => {
-                const dir = args.path.split('/').slice(0, -1).join('/') || '/'
-                const code = fileCodes.find(([path]) => {
-                    return path === args.path
+            build.onLoad({ filter: /.*/, namespace: 'vibeos' }, ({ path }) => {
+                const dir = path.split('/').slice(0, -1).join('/') || '/'
+                let code = fileCodes.find(([fileCodePath]) => {
+                    return fileCodePath === path
                 })[1]
+                if (isTaskSide) {
+                    const isCorePath = /^\/src\/core\b/.test(path)
+                    if (isCorePath) code = ''
+                } else {
+                    const isTaskPath = /^\/src\/task\b/.test(path)
+                    if (isTaskPath) code = ''
+                }
                 return {
                     contents: code,
                     loader: 'tsx',
@@ -61,8 +69,9 @@ export async function transformCode(code) {
 /**
  * @param {string | string[]} entryPoints
  * @param {[string, string][]} fileCodes
+ * @param {boolean} isTaskSide
  */
-export function buildCode(entryPoints, fileCodes) {
+export function buildCode(entryPoints, fileCodes, isTaskSide) {
     if (typeof entryPoints === 'string') {
         entryPoints = [entryPoints]
     }
@@ -75,7 +84,7 @@ export function buildCode(entryPoints, fileCodes) {
         format: 'esm',
         target: ['esnext'],
         jsx: 'automatic',
-        plugins: [esbuildVibeOSPlugin(fileCodes)]
+        plugins: [esbuildVibeOSPlugin(fileCodes, isTaskSide)]
     })
 }
 

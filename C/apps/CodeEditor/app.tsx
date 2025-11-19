@@ -5,28 +5,28 @@ const { Workspace, init } = await import('modern-monaco')
 const workspace = new Workspace({
     initialFiles: {
         'index.html': `
-                <!doctype html>
-                <html>
-                    <head>
-                        <script type="importmap">
-                            {
-                                "imports": {
-                                    "filesize": "https://esm.sh/filesize"
-                                }
+            <!doctype html>
+            <html>
+                <head>
+                    <script type="importmap">
+                        {
+                            "imports": {
+                                "filesize": "https://esm.sh/filesize"
                             }
-                        \x3c/script>
-                    </head>
-                </html>
-            `,
+                        }
+                    \x3c/script>
+                </head>
+            </html>
+        `,
         'index.ts': `
-                (async function() {
-                    const filesize = await import('filesize')
-                    const result: Result = filesize(1024 * 64) // 64 KB
-                })()
-            `,
+            (async function() {
+                const filesize = await import('filesize')
+                const result: Result = filesize(1024 * 64) // 64 KB
+            })()
+        `,
         'types.ts': `
-                type Result = string
-            `
+            type Result = string
+        `
     }
 })
 
@@ -44,8 +44,7 @@ const monaco = await init({
                 forceConsistentCasingInFileNames: true,
                 esModuleInterop: true,
                 noEmit: true,
-                checkJs: false,
-                allowUmdGlobalAccess: true
+                checkJs: false
             }
         }
     },

@@ -10,7 +10,7 @@ interface TableProps {
 }
 
 export function Table({ className, fixed, noWrap, children }: TableProps): ReactNode {
-    const tableId = useUniqId()
+    const [tableId] = useUniqId()
 
     return (
         <div

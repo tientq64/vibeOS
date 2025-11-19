@@ -1,3 +1,5 @@
+@reference 'tailwindcss';
+
 @theme {
     --font-sans: VibeOS, sans-serif;
 }
@@ -22,12 +24,6 @@
 @utility column {
     @apply flex flex-col justify-center;
 }
-@utility font-adjust-* {
-    font-size-adjust: --value([number]);
-}
-@utility adjust-pixel-font-* {
-    font-size-adjust: calc(15 / (--value(integer) * 2 - 2));
-}
 
 @layer base {
     *,
@@ -37,11 +33,18 @@
     }
     html {
         @apply h-full;
+        font-size: 24px;
+        line-height: 28px;
+        --spacing: 4px;
     }
     body {
-        @apply adjust-pixel-font-13 h-full overflow-hidden bg-neutral-900 text-neutral-200 select-none;
+        @apply h-full overflow-hidden bg-neutral-900 wrap-break-word text-neutral-200 select-none;
     }
-    #os-root {
+    #vibe-root {
         @apply h-full;
     }
+}
+
+.vibe-popper-cloak {
+    visibility: hidden !important;
 }

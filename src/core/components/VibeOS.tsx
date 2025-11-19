@@ -1,4 +1,5 @@
 import { CoreTask } from '@core/components/CoreTask'
+import { Popups } from '@core/components/Popups'
 import { Taskbar } from '@core/components/Taskbar'
 import { coreSetup } from '@core/helpers/coreSetup'
 import { updateUnixTime } from '@core/helpers/updateUnixTime'
@@ -20,6 +21,7 @@ export function VibeOS(): ReactNode {
                 ))}
             </div>
             <Taskbar />
+            <Popups />
         </div>
     )
 }

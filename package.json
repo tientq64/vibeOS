@@ -8,9 +8,11 @@
     "private": true,
     "packageManager": "pnpm@10.9.0",
     "scripts": {
-        "dev": "tsx scripts/commands/dev"
+        "dev": "tsx scripts/commands/dev",
+        "generate-types": "tsc -p tsconfig.types.json"
     },
     "dependencies": {
+        "@floating-ui/dom": "1.7.4",
         "ahooks": "3.9.6",
         "bro-fs": "0.6.0",
         "dayjs": "1.11.19",
@@ -37,6 +39,7 @@
         "prettier-plugin-jsdoc": "1.5.0",
         "prettier-plugin-tailwindcss": "0.7.1",
         "tailwindcss": "4.1.16",
-        "tsx": "4.20.6"
+        "tsx": "4.20.6",
+        "typescript": "5.9.3"
     }
 }

@@ -1,9 +1,7 @@
 import { find } from '@both/funcs/find'
 import { isFunction } from '@both/funcs/isFunction'
-import { remove } from '@both/funcs/remove'
+import { removeBy } from '@both/funcs/removeBy'
 import { isMessage } from '@both/helpers/isMessage'
-import { messenger } from '@both/states/messenger'
-import { taskSend } from '@task/helpers/taskSend'
 import { ts, TS } from '@task/store/ts'
 
 export async function taskReceiveMessage(event: MessageEvent): Promise<void> {
@@ -30,14 +28,15 @@ export async function taskReceiveMessage(event: MessageEvent): Promise<void> {
             result = Error(`Không tìm thấy hàm "${funcName}"`)
             isError = true
         }
-        taskSend({
+        ts.send({
             messageId,
             isRequest: false,
+            secretId: ts.messenger.secretId,
             isError,
             result
         })
     } else {
-        const resolver = find(messenger.resolvers, { messageId })
+        const resolver = find(ts.messenger.resolvers, { messageId })
         if (resolver === undefined) return
 
         if (isError) {
@@ -45,6 +44,6 @@ export async function taskReceiveMessage(event: MessageEvent): Promise<void> {
         } else {
             resolver.resolve(result)
         }
-        remove(messenger.resolvers, { messageId })
+        removeBy(ts.messenger.resolvers, { messageId })
     }
 }

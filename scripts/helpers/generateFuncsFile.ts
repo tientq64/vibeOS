@@ -12,27 +12,26 @@ export function generateFuncsFile(): void {
     const areas = [
         {
             name: 'both',
-            upperName: 'Both',
-            isBoth: true
+            upperName: 'Both'
         },
         {
             name: 'core',
-            upperName: 'Core',
-            isBoth: false
+            upperName: 'Core'
         },
         {
             name: 'task',
-            upperName: 'Task',
-            isBoth: false
+            upperName: 'Task'
         }
     ]
-    let funcsCodes = []
-    for (const { name, upperName, isBoth } of areas) {
+    let funcsCodes = ['// @generated']
+    for (const { name, upperName } of areas) {
+        const isBoth = name === 'both'
         const states = readBaseNames(`src/${name}/states/*`)
         const funcs = readBaseNames(`src/${name}/funcs/*`)
-        const members = [...states, ...funcs]
 
         const codes = [
+            '// @generated',
+            "import { ResolveMethods } from '@both/types/types'",
             !isBoth && "import { MakePromiseReturn } from '@both/types/types'",
             states.map((state) => {
                 return `import { ${state} } from '@${name}/states/${state}'`
@@ -40,23 +39,24 @@ export function generateFuncsFile(): void {
             funcs.map((func) => {
                 return `import { ${func} } from '@${name}/funcs/${func}'`
             }),
+            `export const ${name}States = { ${states} }`,
+            `export type ${upperName}States = ResolveMethods<typeof ${name}States>`,
             `export const ${name}Funcs = { ${funcs} }`,
             `export type ${upperName}Funcs = typeof ${name}Funcs`,
             !isBoth && `export type ${upperName}AsyncFuncs = {`,
             !isBoth && funcs.map((func) => `${func}: MakePromiseReturn<typeof ${func}>`),
-            !isBoth && '}',
-            `export const ${name}Members = { ...${name}Funcs, ${states} }`,
-            `export type ${upperName}Member = typeof ${name}Members`
+            !isBoth && '}'
         ]
         const code = codes.flat().filter(Boolean).join('\n').replace(/^ +/gm, '')
         writeFileSync(`src/${name}/store/store.ts`, code)
 
         funcsCodes.push(
-            `export const ${name}FuncNames: string[] = [`,
+            `export const ${name}FuncNames: readonly string[] = Object.freeze([`,
             funcs.map((func) => `'${func}'`).join(','),
-            ']'
+            '])'
         )
     }
+
     const funcsCode = funcsCodes.join('\n')
     writeFileSync('src/both/constants/funcNames.ts', funcsCode)
 }

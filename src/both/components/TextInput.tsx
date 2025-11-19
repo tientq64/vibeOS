@@ -26,20 +26,20 @@ export function TextInput({
     element,
     rightElement,
     defaultValue,
-    value,
+    value: rawValue,
     onChange,
     onValueChange
 }: TextInputProps): ReactNode {
-    const [controllableValue, setControllableValue] = useControllableValue<string>({
+    const [value, setValue] = useControllableValue<string>({
         defaultValue,
-        value
+        value: rawValue,
+        onChange
     })
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { value } = event.target
-        setControllableValue(value)
-        onChange?.(event)
-        onValueChange?.(value)
+        const inputValue = event.target.value
+        setValue(inputValue)
+        onValueChange?.(inputValue)
     }
 
     return (
@@ -53,15 +53,12 @@ export function TextInput({
         >
             {element}
             <input
-                className={clsx(
-                    'h-full min-w-0 flex-1 px-2 shadow-inner outline-none',
-                    fill && 'w-full'
-                )}
+                className={clsx('h-full min-w-0 flex-1 px-2 outline-none', fill && 'w-full')}
                 name={name}
                 autoComplete="both"
                 placeholder={placeholder}
                 defaultValue={defaultValue}
-                value={controllableValue}
+                value={value}
                 onChange={handleInputChange}
             />
             {rightElement}

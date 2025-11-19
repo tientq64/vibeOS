@@ -1,8 +1,11 @@
 import { App } from '@both/states/apps'
+import type { BothFuncs, BothStates } from '@both/store/store'
 import { Obj } from '@both/types/types'
+import type { CoreFuncs, CoreStates } from '@core/store/store'
+import { TaskAsyncFuncs } from '@task/store/store'
 import { proxy } from 'valtio'
 
-export interface Task {
+export interface Task extends BothStates, BothFuncs, CoreStates, CoreFuncs, TaskAsyncFuncs {
     id: number
     appId: App['id']
     path: App['path']
@@ -19,9 +22,8 @@ export interface Task {
     y: number
     noHeader: boolean
     args: Obj
-    secretId: string
     frameInited: boolean
-    postMessage: Window['postMessage'] | undefined
+    iframeEl: HTMLIFrameElement | undefined
 }
 
 export type TaskPrefer = Partial<

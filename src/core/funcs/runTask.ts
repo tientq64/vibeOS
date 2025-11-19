@@ -2,15 +2,17 @@ import { incrId } from '@both/funcs/incrId'
 import { isObject } from '@both/funcs/isObject'
 import { normPath } from '@both/funcs/normPath'
 import { uniqId } from '@both/funcs/uniqId'
+import { resolveMethods } from '@both/helpers/resolveMethods'
 import { App } from '@both/states/apps'
 import { AppTypeName } from '@both/states/appTypes'
 import { MaybeTask, Task, TaskPrefer, tasks } from '@both/states/tasks'
-import { bothMembers } from '@both/store/store'
+import { bothFuncs, bothStates } from '@both/store/store'
 import { Obj } from '@both/types/types'
 import { getApp } from '@core/helpers/getApp'
+import { makeTaskAsyncFuncs } from '@core/helpers/makeTaskAsyncFuncs'
 import { undefOr } from '@core/helpers/undefOr'
 import { desktop } from '@core/states/desktop'
-import { coreMembers } from '@core/store/store'
+import { coreFuncs, coreStates } from '@core/store/store'
 import { proxy } from 'valtio'
 
 export function runTask(this: MaybeTask, appPath: string, prefer: TaskPrefer = {}): Task {
@@ -47,16 +49,16 @@ export function runTask(this: MaybeTask, appPath: string, prefer: TaskPrefer = {
     const maximized: boolean = prefer.maximized ?? app.maximized ?? false
     const minimized: boolean = prefer.minimized ?? app.minimized ?? false
     const fullscreen: boolean = prefer.fullscreen ?? app.fullscreen ?? false
-    const width: number = prefer.width || app.width || 1000
-    const height: number = prefer.height || app.height || 600
-    const x: number = prefer.x ?? desktop.width / 2 - width / 2
-    const y: number = prefer.y ?? desktop.height / 2 - height / 2
+    const width: number = Math.floor(prefer.width || app.width || 1000)
+    const height: number = Math.floor(prefer.height || app.height || 600)
+    const x: number = Math.floor(prefer.x ?? desktop.width / 2 - width / 2)
+    const y: number = Math.floor(prefer.y ?? desktop.height / 2 - height / 2)
     const noHeader: boolean = prefer.noHeader ?? app.noHeader ?? false
     const args: Obj = structuredClone({ ...prefer.args, ...app.args })
     const secretId: string = uniqId()
     const frameInited: boolean = false
 
-    const task: Task = proxy({
+    const task = proxy<Task>({
         id: taskId,
         appId,
         path: appPath,
@@ -73,12 +75,15 @@ export function runTask(this: MaybeTask, appPath: string, prefer: TaskPrefer = {
         y,
         noHeader,
         args,
-        secretId,
         frameInited,
-        postMessage: undefined,
-        ...bothMembers,
-        ...coreMembers
+        iframeEl: undefined,
+        ...resolveMethods(bothStates),
+        ...bothFuncs,
+        ...resolveMethods(coreStates),
+        ...coreFuncs,
+        ...makeTaskAsyncFuncs()
     })
+    task.messenger.secretId = secretId
     tasks.push(task)
 
     return task

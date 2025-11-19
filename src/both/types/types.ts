@@ -7,3 +7,7 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type MakePromiseReturn<F> = F extends (...args: infer A) => infer R
     ? (...args: A) => R extends Promise<any> ? R : Promise<R>
     : never
+
+export type ResolveMethods<T> = {
+    [K in keyof T]: T[K] extends (...args: any[]) => infer R ? R : T[K]
+}

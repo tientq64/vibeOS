@@ -38,7 +38,7 @@ let templHtml: string = await fetchText(templHtmlPath)
 const liveServerInjectedScriptTagRegex = /<!-- Code injected by live-server -->.+<\/script>/s
 templHtml = templHtml.replace(liveServerInjectedScriptTagRegex, '')
 
-const result = await buildCode('@core/script', srcCodes)
+const result = await buildCode('@core/script', srcCodes, false)
 const code = result.outputFiles?.[0].text
 if (code === undefined) {
     throw Error('Build code xảy ra lỗi')
@@ -53,3 +53,5 @@ window.Paths = Paths
 window.srcCodes = srcCodes
 window.bothCss = bothCss
 window.templHtml = templHtml
+
+export {}

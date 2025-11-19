@@ -24,16 +24,20 @@
             {
                 "imports": {
                     "react": "https://esm.sh/react@19.2.0",
-                    "react-dom/client": "https://esm.sh/react-dom@19.2.0/client",
-                    "react/jsx-runtime": "https://esm.sh/react@19.2.0/jsx-runtime",
+                    "react/": "https://esm.sh/react@19.2.0/",
+                    "react-dom": "https://esm.sh/react-dom@19.2.0",
+                    "react-dom/": "https://esm.sh/react-dom@19.2.0/",
                     "ahooks": "https://esm.sh/ahooks@3.9.6",
                     "valtio": "https://esm.sh/valtio@2.2.0",
+                    "valtio/": "https://esm.sh/valtio@2.2.0/",
                     "tailwind-merge": "https://esm.sh/tailwind-merge@3.3.1",
                     "dayjs": "https://esm.sh/dayjs@1.11.19",
+                    "dayjs/": "https://esm.sh/dayjs@1.11.19/",
                     "js-yaml": "https://esm.sh/js-yaml@4.1.0",
                     "yup": "https://esm.sh/yup@1.7.1",
                     "motion": "https://esm.sh/motion@12.23.24",
-                    "motion/react": "https://esm.sh/motion@12.23.24/react",
+                    "motion/": "https://esm.sh/motion@12.23.24/",
+                    "@floating-ui/dom": "https://esm.sh/@floating-ui/dom@1.7.4",
                     "@tailwindcss/browser": "https://esm.sh/@tailwindcss/browser@4.1.17",
                     "bro-fs": "https://esm.sh/bro-fs@0.6.0",
                     "esbuild-wasm": "https://esm.sh/esbuild-wasm@0.25.12"
@@ -43,7 +47,7 @@
     </head>
 
     <body>
-        <div id="os-root">
+        <div id="vibe-root">
             <script type="module">
                 import { transformCode } from './esbuild.js'
 

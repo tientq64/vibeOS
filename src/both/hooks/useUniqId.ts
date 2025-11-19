@@ -1,6 +1,13 @@
 import { uniqId } from '@both/funcs/uniqId'
-import { useMemo } from 'react'
+import { useState } from 'react'
 
-export function useUniqId(): string {
-    return useMemo(() => uniqId(), [])
+export function useUniqId(initId?: string): [string, () => string] {
+    const [id, setId] = useState<string>(initId ?? uniqId)
+
+    const getNewId = (): string => {
+        const newId = uniqId()
+        setId(newId)
+        return newId
+    }
+    return [id, getNewId]
 }

@@ -97,7 +97,7 @@ export function App(): ReactNode {
             className="column h-full"
             style={{
                 background: isDesktop
-                    ? 'url(https://cdn.jsdelivr.net/gh/tientq64/data/gradient.jpg) center/cover no-repeat'
+                    ? 'url(https://cdn.jsdelivr.net/gh/tientq64/data/colorful.png) center/cover no-repeat'
                     : undefined
             }}
         >
@@ -165,12 +165,13 @@ export function App(): ReactNode {
                         </tbody>
                     </Table>
                 )}
+
                 {viewMode === 'tiles' && (
                     <div className="grid h-full auto-cols-[120px] grid-flow-col grid-rows-[repeat(auto-fill,100px)] gap-1">
                         {req.data?.map((ent) => (
                             <div key={ent.path} className="col rounded hover:bg-neutral-600/50">
-                                <Icon name={ent.icon} />
-                                {ent.name}
+                                <Icon className="text-2xl" name={ent.icon} />
+                                {isDesktop ? ent.name.replace(/\.lnk$/, '') : ent.name}
                             </div>
                         ))}
                     </div>

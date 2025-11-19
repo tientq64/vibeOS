@@ -17,9 +17,15 @@ export interface Resolver {
 }
 
 export interface Messenger {
+    secretId: string
     resolvers: Resolver[]
+    postMessage: Window['postMessage'] | undefined
 }
 
-export const messenger: Messenger = ref({
-    resolvers: []
-})
+export const messenger = () => {
+    return ref<Messenger>({
+        secretId: '',
+        resolvers: [],
+        postMessage: undefined
+    })
+}

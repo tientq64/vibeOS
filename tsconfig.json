@@ -10,6 +10,7 @@
         "esModuleInterop": true,
         "noEmit": true,
         "checkJs": false,
+        "skipLibCheck": true,
         "noFallthroughCasesInSwitch": true,
         "allowImportingTsExtensions": true,
         "baseUrl": ".",
@@ -20,5 +21,6 @@
             "@root/*": ["*"]
         }
     },
-    "include": ["src", "C/apps", "boot.ts", "esbuild.js"]
+    "include": ["src", "C/apps", "boot.ts", "esbuild.js"],
+    "exclude": ["node_modules"]
 }

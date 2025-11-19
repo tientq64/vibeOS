@@ -1,4 +1,4 @@
-export enum ReadFileDataType {
+export const enum ReadFileDataType {
     Text = 'Text',
     DataUrl = 'DataURL',
     Buffer = 'ArrayBuffer',

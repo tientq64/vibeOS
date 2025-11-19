@@ -4,15 +4,14 @@ import { clamp } from '@both/funcs/clamp'
 import { clsx } from '@both/funcs/clsx'
 import { isSelfEvent } from '@both/funcs/isSelfEvent'
 import { ref } from '@both/funcs/ref'
-import { AppTypeName } from '@both/states/appTypes'
 import { ColorName } from '@both/states/colors'
 import { SizeName } from '@both/states/sizes'
 import { Task } from '@both/states/tasks'
 import { VibeOS } from '@core/components/VibeOS'
-import { maximize } from '@core/funcs/maximize'
 import { readFile } from '@core/funcs/readFile'
+import { checkIsCoreTask } from '@core/helpers/checkIsCoreTask'
 import { extractImportmapFromHtml, Importmap } from '@core/helpers/extractImportmapFromHtml'
-import { desktop } from '@core/states/desktop'
+import { useOS } from '@core/hooks/useOS'
 import { useAsyncEffect } from 'ahooks'
 import { motion, useDragControls } from 'motion/react'
 import { createElement, PointerEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
@@ -23,26 +22,26 @@ interface TaskProps {
 }
 
 export function CoreTask({ task }: TaskProps): ReactNode {
+    const { mouse, desktop } = useOS()
+
     const [html, setHtml] = useState<string>('')
 
-    const [dragging, setDragging] = useState<boolean>(false)
     const dragControl = useDragControls()
 
     const mountRef = useRef<HTMLDivElement | null>(null)
     const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
-    const noIframe = useMemo<boolean>(() => {
-        return task.type === AppTypeName.OS || task.type === AppTypeName.Core
-    }, [task.type])
+    const isCoreTask: boolean = checkIsCoreTask(task)
 
     const handleHeaderPointerDown = (event: PointerEvent): void => {
         if (!isSelfEvent(event)) return
         if (task.fullscreen || task.maximized) return
+        event.currentTarget.setPointerCapture(event.pointerId)
         dragControl.start(event)
     }
 
     useAsyncEffect(async () => {
-        if (noIframe) return
+        if (isCoreTask) return
         const codePlaceholderRegex: RegExp = /__([\w.]+)__|\{\{([\w.]+)\}\}/g
         let tsx: string
         let css: string
@@ -61,7 +60,7 @@ export function CoreTask({ task }: TaskProps): ReactNode {
         const taskEntryPath = '/src/task/script'
         const taskEntry = srcCodes.find((entry) => entry[0] === taskEntryPath)!
         const taskEntryInjectVars = {
-            secretId: task.secretId
+            secretId: task.messenger.secretId
         }
         const taskEntryCode = taskEntry[1].replace(codePlaceholderRegex, (_, jsVarName) => {
             return taskEntryInjectVars[jsVarName as keyof typeof taskEntryInjectVars]
@@ -75,17 +74,19 @@ export function CoreTask({ task }: TaskProps): ReactNode {
             }
             return entry
         })
-        const result = await buildCode('@task/script', injectedSrcCodes)
+        const result = await buildCode('@task/script', injectedSrcCodes, true)
         const js = result.outputFiles?.[0].text
         if (js === undefined) {
             throw Error(`Ứng dụng lỗi: ${result.errors}`)
         }
         css = bothCss + css
-        let importmapJson: string = ''
-        if (importmapHtml) {
-            const importmap: Importmap = extractImportmapFromHtml(importmapHtml)
-            importmapJson = JSON.stringify(importmap)
+        let importmap: Importmap = {
+            imports: {}
         }
+        if (importmapHtml) {
+            importmap = extractImportmapFromHtml(importmapHtml)
+        }
+        const importmapJson: string = JSON.stringify(importmap)
         const htmlInjectVars = { js, css, importmapJson }
         let html: string = templHtml.replace(codePlaceholderRegex, (_, jsVarName, cssVarName) => {
             return htmlInjectVars[(jsVarName || cssVarName) as keyof typeof htmlInjectVars]
@@ -94,7 +95,7 @@ export function CoreTask({ task }: TaskProps): ReactNode {
     }, [])
 
     useEffect(() => {
-        if (!noIframe) return
+        if (!isCoreTask) return
         if (mountRef.current === null) return
         const root = createRoot(mountRef.current)
         root.render(<VibeOS />)
@@ -104,15 +105,15 @@ export function CoreTask({ task }: TaskProps): ReactNode {
     }, [])
 
     useEffect(() => {
-        if (noIframe) return
+        if (isCoreTask) return
         const contentWindow = iframeRef.current?.contentWindow
         if (!contentWindow) return
-        const postMessageFunc = contentWindow.postMessage.bind(contentWindow)
-        task.postMessage = ref(postMessageFunc)
+        const postMessage = contentWindow.postMessage.bind(contentWindow)
+        task.messenger.postMessage = ref(postMessage)
     }, [])
 
     useEffect(() => {
-        if (noIframe) return
+        if (isCoreTask) return
         const iframe = iframeRef.current
         if (html === '' || iframe === null) return
         iframe.allow = ['storage-access'].join(',')
@@ -124,7 +125,7 @@ export function CoreTask({ task }: TaskProps): ReactNode {
             'allow-popups',
             'allow-popups-to-escape-sandbox',
             'allow-presentation',
-            'allow-same-origin',
+            // 'allow-same-origin',
             'allow-scripts',
             'allow-storage-access-by-user-activation'
         )
@@ -140,6 +141,27 @@ export function CoreTask({ task }: TaskProps): ReactNode {
             height: task.fullscreen || task.maximized ? '100%' : task.height
         }
     }, [task.fullscreen, task.maximized, task.x, task.y, task.width, task.height])
+
+    useEffect(() => {
+        if (task.width < desktop.width) {
+            task.x = Math.floor(clamp(task.x, desktop.x, desktop.width - task.width))
+        } else {
+            task.x = 0
+        }
+    }, [task.x, desktop.x, desktop.width])
+
+    useEffect(() => {
+        if (task.height < desktop.height) {
+            task.y = Math.floor(clamp(task.y, desktop.y, desktop.height - task.height))
+        } else {
+            task.y = 0
+        }
+    }, [task.y, desktop.y, desktop.height])
+
+    useEffect(() => {
+        if (iframeRef.current === null) return
+        task.iframeEl = ref(iframeRef.current)
+    }, [iframeRef])
 
     return (
         <motion.div
@@ -174,15 +196,9 @@ export function CoreTask({ task }: TaskProps): ReactNode {
                 bounceStiffness: 1200
             }}
             dragElastic={0.25}
-            onDragStart={() => {
-                setDragging(true)
-            }}
             onDragEnd={(_, info) => {
                 task.x += info.offset.x
                 task.y += info.offset.y
-                task.x = clamp(task.x, desktop.x, desktop.width - task.width)
-                task.y = clamp(task.y, desktop.y, desktop.height - task.height)
-                setDragging(false)
             }}
         >
             <motion.div
@@ -208,7 +224,7 @@ export function CoreTask({ task }: TaskProps): ReactNode {
                     <Button
                         size={SizeName.Sm}
                         onClick={() => {
-                            maximize(task.id)
+                            task.maximize()
                         }}
                     >
                         +
@@ -230,11 +246,11 @@ export function CoreTask({ task }: TaskProps): ReactNode {
                     borderRadius: task.fullscreen || task.maximized ? 0 : undefined
                 }}
             >
-                {createElement(noIframe ? motion.div : motion.iframe, {
-                    ref: (noIframe ? mountRef : iframeRef) as any,
+                {createElement(isCoreTask ? motion.div : motion.iframe, {
+                    ref: (isCoreTask ? mountRef : iframeRef) as any,
                     className: clsx(
                         'h-full w-full bg-neutral-900',
-                        dragging && 'pointer-events-none'
+                        mouse.isDown && !isCoreTask && 'pointer-events-none'
                     ),
                     initial: {
                         borderRadius: 6

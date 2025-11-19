@@ -7,7 +7,7 @@ export function getFrameInit(this: MaybeTask) {
     const newSecretId: string = uniqId()
     const args = { ...this.args }
 
-    this.secretId = newSecretId
+    this.messenger.secretId = newSecretId
 
     return {
         secretId: newSecretId,

@@ -1,6 +1,7 @@
+import { Task } from '@both/states/tasks'
 import { os } from '@core/script'
-import { useSnapshot } from 'valtio'
+import { useProxy } from 'valtio/utils'
 
-export function useOS(sync?: boolean) {
-    return useSnapshot(os, { sync })
+export function useOS(sync?: boolean): Task {
+    return useProxy(os, { sync })
 }

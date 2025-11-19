@@ -1,6 +1,13 @@
+// @generated
+import { ResolveMethods } from '@both/types/types'
 import { MakePromiseReturn } from '@both/types/types'
 import { desktop } from '@core/states/desktop'
+import { mouse } from '@core/states/mouse'
+import { subMenu } from '@core/states/subMenu'
 import { taskbar } from '@core/states/taskbar'
+import { tooltip } from '@core/states/tooltip'
+import { closeSubMenu } from '@core/funcs/closeSubMenu'
+import { closeTooltip } from '@core/funcs/closeTooltip'
 import { createShortcut } from '@core/funcs/createShortcut'
 import { getEnt } from '@core/funcs/getEnt'
 import { getFrameInit } from '@core/funcs/getFrameInit'
@@ -16,10 +23,16 @@ import { resolveShortcut } from '@core/funcs/resolveShortcut'
 import { runTask } from '@core/funcs/runTask'
 import { setFrameInited } from '@core/funcs/setFrameInited'
 import { setFullscreen } from '@core/funcs/setFullscreen'
+import { showSubMenu } from '@core/funcs/showSubMenu'
+import { showTooltip } from '@core/funcs/showTooltip'
 import { writeFile } from '@core/funcs/writeFile'
-export const coreFuncs = { createShortcut,getEnt,getFrameInit,installApp,maximize,readDir,readFile,readShortcut,readVibeFile,realPath,resolveEntIcon,resolveShortcut,runTask,setFrameInited,setFullscreen,writeFile }
+export const coreStates = { desktop,mouse,subMenu,taskbar,tooltip }
+export type CoreStates = ResolveMethods<typeof coreStates>
+export const coreFuncs = { closeSubMenu,closeTooltip,createShortcut,getEnt,getFrameInit,installApp,maximize,readDir,readFile,readShortcut,readVibeFile,realPath,resolveEntIcon,resolveShortcut,runTask,setFrameInited,setFullscreen,showSubMenu,showTooltip,writeFile }
 export type CoreFuncs = typeof coreFuncs
 export type CoreAsyncFuncs = {
+closeSubMenu: MakePromiseReturn<typeof closeSubMenu>
+closeTooltip: MakePromiseReturn<typeof closeTooltip>
 createShortcut: MakePromiseReturn<typeof createShortcut>
 getEnt: MakePromiseReturn<typeof getEnt>
 getFrameInit: MakePromiseReturn<typeof getFrameInit>
@@ -35,7 +48,7 @@ resolveShortcut: MakePromiseReturn<typeof resolveShortcut>
 runTask: MakePromiseReturn<typeof runTask>
 setFrameInited: MakePromiseReturn<typeof setFrameInited>
 setFullscreen: MakePromiseReturn<typeof setFullscreen>
+showSubMenu: MakePromiseReturn<typeof showSubMenu>
+showTooltip: MakePromiseReturn<typeof showTooltip>
 writeFile: MakePromiseReturn<typeof writeFile>
 }
-export const coreMembers = { ...coreFuncs, desktop,taskbar }
-export type CoreMember = typeof coreMembers

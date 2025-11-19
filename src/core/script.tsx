@@ -16,10 +16,12 @@ await fs.init({ bytes: 1024 * 1024 * 512 })
 const app: App = await installApp(AppInstallTypeName.OS, '/C/apps/VibeOS', '/C/apps/VibeOS')
 export const os: Task = runTask(app.path)
 
+window.bs = os
+
 function OS(): ReactNode {
     useOS()
     return <CoreTask task={os} />
 }
 
-const rootEl = document.getElementById('os-root')!
+const rootEl = document.getElementById('vibe-root')!
 createRoot(rootEl).render(<OS />)

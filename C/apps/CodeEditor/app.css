@@ -1,3 +1,5 @@
+@reference 'tailwindcss';
+
 .monaco-editor {
     @apply font-sans!;
 }

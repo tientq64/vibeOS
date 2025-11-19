@@ -6,7 +6,10 @@
     },
     "typescript.preferences.useAliasesForRenames": false,
     "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.tsdk": "node_modules\\typescript\\lib",
     "files.readonlyInclude": {
+        "paths.json": true,
+        "src/both/constants/funcNames.ts": true,
         "src/*/store/store.ts": true
     },
     "files.associations": {

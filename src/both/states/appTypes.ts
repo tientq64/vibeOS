@@ -1,6 +1,6 @@
 import { ref } from '@both/funcs/ref'
 
-export enum AppTypeName {
+export const enum AppTypeName {
     OS = 'os',
     Core = 'core',
     Normal = 'normal'

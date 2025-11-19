@@ -3,7 +3,7 @@
         "scope": "typescriptreact",
         "prefix": "uo",
         "body": [
-            "const ${1:snap} = useOS()"
+            "const {$1} = useOS()"
         ]
     }
 }

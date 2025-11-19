@@ -1,3 +1,5 @@
+import { proxy } from 'valtio'
+
 export interface Desktop {
     width: number
     height: number
@@ -5,9 +7,9 @@ export interface Desktop {
     y: number
 }
 
-export const desktop: Desktop = {
+export const desktop = proxy<Desktop>({
     width: innerWidth,
     height: innerHeight,
     x: 0,
     y: 0
-}
+})

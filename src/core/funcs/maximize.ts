@@ -1,8 +1,8 @@
-import { getTask } from '@core/helpers/getTask'
+import { MaybeTask } from '@both/states/tasks'
+import { os } from '@core/script'
 
-export function maximize(taskId: number, maximized?: boolean): void {
-    const task = getTask(taskId)
-    if (task === undefined) return
+export function maximize(this: MaybeTask, maximized?: boolean): void {
+    const task = this ?? os
 
     maximized = Boolean(maximized ?? !task.maximized)
     task.maximized = maximized

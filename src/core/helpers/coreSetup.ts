@@ -3,6 +3,8 @@ import { bothSetup } from '@both/helpers/bothSetup'
 import { installApp } from '@core/funcs/installApp'
 import { runTask } from '@core/funcs/runTask'
 import { coreReceiveMessage } from '@core/helpers/coreReceiveMessage'
+import { handleCoreWindowMouseDownCapture } from '@core/helpers/handleCoreWindowMouseDownCapture'
+import { handleCoreWindowMouseUpCapture } from '@core/helpers/handleCoreWindowMouseUpCapture'
 import { handleWindowResize } from '@core/helpers/handleWindowResize'
 
 export async function coreSetup(): Promise<void> {
@@ -14,6 +16,8 @@ export async function coreSetup(): Promise<void> {
     }
 
     window.addEventListener('resize', handleWindowResize)
+    window.addEventListener('mousedown', handleCoreWindowMouseDownCapture, true)
+    window.addEventListener('mouseup', handleCoreWindowMouseUpCapture, true)
     window.addEventListener('message', coreReceiveMessage)
     handleWindowResize()
 
@@ -26,5 +30,5 @@ export async function coreSetup(): Promise<void> {
             viewMode: 'tiles'
         }
     })
-    runTask('/C/apps/CodeEditor')
+    runTask('/C/apps/UIShowcase')
 }
